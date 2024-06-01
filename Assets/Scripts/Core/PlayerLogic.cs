@@ -27,4 +27,10 @@ public class PlayerLogic : MonoBehaviour
     {
         transform.Translate(velocity * Time.fixedDeltaTime * SPEED);
     }
+
+    public void Teleport(Transform destination)
+    {
+        transform.position = destination.position;
+        transform.rotation = destination.rotation;
+    }
 }
