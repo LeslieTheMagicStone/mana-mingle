@@ -1667,6 +1667,7 @@ MonoBehaviour:
   maxSpells: 5
   spellSlotPrefab: {fileID: 6782303808393087788, guid: f4b44f0f085b4e242b9edf4aaaeb3037,
     type: 3}
+  attachedPlayer: {fileID: 689995009}
 --- !u!114 &830370765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4511,6 +4512,7 @@ MonoBehaviour:
   maxSpells: 5
   spellSlotPrefab: {fileID: 6782303808393087788, guid: f4b44f0f085b4e242b9edf4aaaeb3037,
     type: 3}
+  attachedPlayer: {fileID: 1828174431}
 --- !u!1001 &2039928192
 PrefabInstance:
   m_ObjectHideFlags: 0
