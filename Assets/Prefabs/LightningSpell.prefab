@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spellName: Thunder Ward
+  _displayName: "\u7535"
   _mana: 10
   _prefab: {fileID: 6891201752256373371, guid: 0e9df70a9a02ca84b881164683ff9ec1, type: 3}
   spawnPoint: {fileID: 4666535919996813402}

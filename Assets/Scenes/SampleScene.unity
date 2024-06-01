@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: fdsfdsfds
+  m_text: Current Spell
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7f6caa1c9008a01428c44b79f600e96d, type: 2}
   m_sharedMaterial: {fileID: 3883382800962566936, guid: 7f6caa1c9008a01428c44b79f600e96d,
@@ -1965,10 +1965,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1721699656}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88680376ad22a4e42933419422dbe49d, type: 3}
+  m_Script: {fileID: 11500000, guid: d7658fc1a0fa68d4aa2706ec22d221c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlinePrefab: {fileID: 2100000, guid: 77bb6aa0c3143da498c877260be8cd11, type: 2}
+  spell: {fileID: 6344412581506311299, guid: 65424e886f88a1d4abe89da2381c6001, type: 3}
 --- !u!1 &1740747656
 GameObject:
   m_ObjectHideFlags: 0

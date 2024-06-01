@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spellName: Incendio
+  _displayName: "\u706B"
   _mana: 10
   _prefab: {fileID: 7822538418336825868, guid: 853caa4c1133982498bf982c8bd43c0a, type: 3}
   spawnPoint: {fileID: 4519181989186285754}

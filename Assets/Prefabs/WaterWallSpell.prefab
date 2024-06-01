@@ -77,6 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spellName: Aguamenti
+  _displayName: "\u6C34"
   _mana: 10
   _prefab: {fileID: 3979092423640655277, guid: fa83538974987804bb0d83c7eed8ecad, type: 3}
   spawnPoint: {fileID: 5287891211944409027}

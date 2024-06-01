@@ -24,7 +24,7 @@ public class SpellSlotManager : MonoBehaviour
         }
     }
 
-    private void AddSpell(SpellBase spell)
+    public void AddSpell(SpellBase spell)
     {
         if (spell == null) return;
         if (emptySlotCount == 0) return;
