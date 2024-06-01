@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Localization>
+  <Entry>
+    <Key>Title</Key>
+    <Value>我不到啊</Value>
+  </Entry>
+  <Entry>
+    <Key>Start</Key>
+    <Key>开冲！</Key>
+  </Entry>
+  <Entry>
+    <Key>Quit</Key>
+    <Key>润了</Key>
+  </Entry>
+  <Entry>
+    <Key>Options</Key>
+    <Key>设置</Key>
+  </Entry>
+  <Entry>
+    <Key>Language</Key>
+    <Key>语言</Key>
+  </Entry>
+  <Entry>
+    <Key>Paused</Key>
+    <Key>暂停</Key>
+  </Entry>
+  <Entry>
+    <Key>Resume</Key>
+    <Key>继续</Key>
+  </Entry>
+  <Entry>
+    <Key>Restart</Key>
+    <Key>重开</Key>
+  </Entry>
+  <Entry>
+    <Key>Main Menu</Key>
+    <Key>主菜单</Key>
+  </Entry>
+</Localization>

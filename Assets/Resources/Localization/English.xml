@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Localization>
+  <Entry>
+    <Key>Title</Key>
+    <Value>Who Asked?</Value>
+  </Entry>
+  <Entry>
+    <Key>Start</Key>
+    <Key>Start</Key>
+  </Entry>
+  <Entry>
+    <Key>Quit</Key>
+    <Key>Quit</Key>
+  </Entry>
+  <Entry>
+    <Key>Options</Key>
+    <Key>Options</Key>
+  </Entry>
+  <Entry>
+    <Key>Language</Key>
+    <Key>Language</Key>
+  </Entry>
+  <Entry>
+    <Key>Paused</Key>
+    <Key>Paused</Key>
+  </Entry>
+  <Entry>
+    <Key>Resume</Key>
+    <Key>Resume</Key>
+  </Entry>
+  <Entry>
+    <Key>Restart</Key>
+    <Key>Restart</Key>
+  </Entry>
+  <Entry>
+    <Key>Main Menu</Key>
+    <Key>Main Menu</Key>
+  </Entry>
+</Localization>
