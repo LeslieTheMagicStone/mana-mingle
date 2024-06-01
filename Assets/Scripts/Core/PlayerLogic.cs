@@ -2,18 +2,9 @@ using UnityEngine;
 
 public class PlayerLogic : MonoBehaviour
 {
-
-    private CharacterController characterController;
-
     private Vector3 direction;
     private Vector3 velocity;
     private const float SPEED = 2f;
-
-
-    private void Start()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
 
     private void Update()
     {
@@ -22,12 +13,18 @@ public class PlayerLogic : MonoBehaviour
         float horizontalInputRaw = Input.GetAxisRaw("Horizontal");
         float verticalInputRaw = Input.GetAxisRaw("Vertical");
         direction = new Vector3(horizontalInputRaw, 0, verticalInputRaw);
+        if (direction.magnitude == 0)
+        {
+            velocity.x = 0;
+            velocity.z = 0;
+            return;
+        }
         velocity.x = horizontalInput * SPEED / direction.magnitude;
         velocity.z = verticalInput * SPEED / direction.magnitude;
     }
 
     private void FixedUpdate()
     {
-        characterController.Move(velocity * Time.fixedDeltaTime * SPEED);
+        transform.Translate(velocity * Time.fixedDeltaTime * SPEED);
     }
 }
