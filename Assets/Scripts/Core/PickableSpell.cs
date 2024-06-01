@@ -1,17 +1,12 @@
 using UnityEngine;
 
-public class PickableSpell : MonoBehaviour
+public class PickableSpell : PickableObject
 {
     [SerializeField] private SpellBase spell;
 
-    public void Pick(SpellSlotManager slots)
+    public override void OnPick(PickerLogic picker)
     {
-        slots.AddSpell(spell);
-    }
-
-    private void OnMouseDown()
-    {
-        Pick(FindObjectOfType<SpellSlotManager>());
+        picker.spellSlots.AddSpell(spell);
         Destroy(gameObject);
     }
 }

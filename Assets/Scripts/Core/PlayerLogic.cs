@@ -1,17 +1,25 @@
 using UnityEngine;
 
+public enum PlayerID
+{
+    _P1,
+    _P2,
+}
+
 public class PlayerLogic : MonoBehaviour
 {
+    public PlayerID playerID => _playerID;
+    [SerializeField] private PlayerID _playerID;
     private Vector3 direction;
     private Vector3 velocity;
     private const float SPEED = 2f;
 
     private void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        float horizontalInputRaw = Input.GetAxisRaw("Horizontal");
-        float verticalInputRaw = Input.GetAxisRaw("Vertical");
+        float horizontalInput = Input.GetAxis("Horizontal" + playerID.ToString());
+        float verticalInput = Input.GetAxis("Vertical" + playerID.ToString());
+        float horizontalInputRaw = Input.GetAxisRaw("Horizontal" + playerID.ToString());
+        float verticalInputRaw = Input.GetAxisRaw("Vertical" + playerID.ToString());
         direction = new Vector3(horizontalInputRaw, 0, verticalInputRaw);
         if (direction.magnitude == 0)
         {

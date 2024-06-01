@@ -1,6 +1,6 @@
 public enum Side
 {
-    Player,
-    Enemy,
+    Holy,
+    Dark,
     Neutral,
 }

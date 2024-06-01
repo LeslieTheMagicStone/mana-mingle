@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class WandLogic : MonoBehaviour
 {
@@ -16,9 +15,8 @@ public class WandLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1" + playerLogic.playerID.ToString()))
         {
-            if (EventSystem.current.currentSelectedGameObject != null) return;
             if (spellSlot.spell == null) return;
             if (!manaLogic.TryCostMana(spellSlot.spell.mana)) { print("Not enough mana."); return; }
             spellSlot.spell.Cast(playerLogic);

@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-public class SelectableObject : MonoBehaviour
+public class PickableObject : MonoBehaviour
 {
     [SerializeField] private Material outlinePrefab;
     private Material outline;
@@ -12,21 +12,18 @@ public class SelectableObject : MonoBehaviour
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.materials = meshRenderer.materials.Append(outlinePrefab).ToArray();
         outline = meshRenderer.materials[^1];
-        OnMouseExit();
+        OnHighlightExit();
     }
 
-    private void OnMouseEnter()
+    public void OnHighlightEnter()
     {
         outline.SetFloat("_Scale", 1.1f);
     }
 
-    private void OnMouseExit()
+    public void OnHighlightExit()
     {
         outline.SetFloat("_Scale", 1.0f);
     }
 
-    private void OnMouseDown()
-    {
-        outline.SetFloat("_Scale", 1.2f);
-    }
+    public virtual void OnPick(PickerLogic picker) { }
 }

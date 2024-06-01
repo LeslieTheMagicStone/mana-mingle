@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OnFocusSFX: {fileID: 8300000, guid: 745b2b0fcfd084dadb474e26ded272b9, type: 3}
-  OnClickSFX: {fileID: 8300000, guid: 72cd3e9bc29af4c57a62e91883166b7b, type: 3}
+  OnClickSFX: {fileID: 8300000, guid: f02e1cfbfa3064be0acccbbc7e750507, type: 3}
 --- !u!114 &7350806346572019085
 MonoBehaviour:
   m_ObjectHideFlags: 0

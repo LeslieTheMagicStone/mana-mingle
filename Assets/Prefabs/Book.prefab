@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7658fc1a0fa68d4aa2706ec22d221c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  outlinePrefab: {fileID: 2100000, guid: f6dd9449a5eb9c045937c3786f1bbf55, type: 2}
   spell: {fileID: 0}
 --- !u!114 &885385939659433241
 MonoBehaviour:
