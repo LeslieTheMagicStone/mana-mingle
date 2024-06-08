@@ -1,8 +1,10 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Damageable master;
+    [SerializeField] private bool isPlayer;
     private Vector3 localScale;
     private float maxWidth;
 

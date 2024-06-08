@@ -1,11 +1,18 @@
 using UnityEngine;
 using System.Linq;
 
+public enum HighlightMode
+{
+    Auto,
+    Cursor
+}
+
 public class PickerLogic : MonoBehaviour
 {
     public SpellSlotManager spellSlots => _spellSlots;
 
     [SerializeField] private SpellSlotManager _spellSlots;
+    [SerializeField] private HighlightMode highlightMode;
 
     private PickableObject currentHighlighted;
     private string pickButtonName;
@@ -30,6 +37,20 @@ public class PickerLogic : MonoBehaviour
 
     private void UpdatePickables()
     {
+
+        if (highlightMode == HighlightMode.Cursor)
+        {
+            PickableObject newHighlighted = null;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, MAX_RANGE))
+                hit.collider.TryGetComponent(out newHighlighted);
+            if (newHighlighted == currentHighlighted) return;
+            if (currentHighlighted != null) currentHighlighted.OnHighlightExit();
+            currentHighlighted = newHighlighted;
+            if (currentHighlighted != null) currentHighlighted.OnHighlightEnter();
+            return;
+        }
+
         if (currentHighlighted != null)
         {
             if (Vector3.Distance(transform.position, currentHighlighted.transform.position) > MAX_RANGE)
@@ -42,7 +63,9 @@ public class PickerLogic : MonoBehaviour
         var pickables = FindObjectsByType<PickableObject>(FindObjectsSortMode.None);
         pickables = pickables.Where(x => Vector3.Distance(transform.position, x.transform.position) < MAX_RANGE).ToArray();
         pickables = pickables.OrderBy(x => Vector3.Distance(transform.position, x.transform.position)).ToArray();
+
         if (pickables.Length == 0) return;
+
         if (pickables[0] != currentHighlighted)
         {
             if (currentHighlighted != null) currentHighlighted.OnHighlightExit();

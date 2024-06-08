@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.Netcode;
 
 public enum PlayerID
 {
@@ -6,15 +7,34 @@ public enum PlayerID
     _P2,
 }
 
-public class PlayerLogic : MonoBehaviour
+public class PlayerLogic : NetworkBehaviour
 {
     public PlayerID playerID => _playerID;
     [SerializeField] private PlayerID _playerID;
+    [SerializeField] private Camera cameraObject;
     private Vector3 direction;
     private Vector3 velocity;
+    private float verticalRotation = 0;
     private const float SPEED = 2f;
+    private const float SENSITIVITY_X = 2.0f;
+    private const float SENSITIVITY_Y = 2.0f;
+    private const float Y_ROTATION_MAX = 90f;
+    private const float Y_ROTATION_MIN = -90f;
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsHost) Camera.main.gameObject.SetActive(false);
+        cameraObject.gameObject.SetActive(IsOwner);
+        if (!IsOwner) enabled = false;
+    }
 
     private void Update()
+    {
+        HandleMovement();
+        HandleRotation();
+    }
+
+    private void HandleMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal" + playerID.ToString());
         float verticalInput = Input.GetAxis("Vertical" + playerID.ToString());
@@ -29,6 +49,19 @@ public class PlayerLogic : MonoBehaviour
         }
         velocity.x = horizontalInput * SPEED / direction.magnitude;
         velocity.z = verticalInput * SPEED / direction.magnitude;
+    }
+
+    private void HandleRotation()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * SENSITIVITY_X;
+        float mouseY = Input.GetAxis("Mouse Y") * SENSITIVITY_Y;
+
+        transform.Rotate(0, mouseX, 0);
+
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, Y_ROTATION_MIN, Y_ROTATION_MAX);
+
+        Camera.main.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
     }
 
     private void FixedUpdate()
