@@ -42,6 +42,7 @@ public class PickerLogic : MonoBehaviour
         {
             PickableObject newHighlighted = null;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 0.1f);
             if (Physics.Raycast(ray, out RaycastHit hit, MAX_RANGE))
                 hit.collider.TryGetComponent(out newHighlighted);
             if (newHighlighted == currentHighlighted) return;

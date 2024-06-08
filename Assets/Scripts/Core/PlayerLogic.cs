@@ -23,7 +23,8 @@ public class PlayerLogic : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsHost) Camera.main.gameObject.SetActive(false);
+        GameObject[] tempObjects = GameObject.FindGameObjectsWithTag("TempObject");
+        foreach (var obj in tempObjects) Destroy(obj);
         cameraObject.gameObject.SetActive(IsOwner);
         if (!IsOwner) enabled = false;
     }
