@@ -90,7 +90,7 @@ public class LobbyLogic : NetworkBehaviour
 
     private void OnStartClick()
     {
-
+        GameManager.instance.LoadScene("DemoScene");
     }
 
     private void OnNameEndEdit(string value)
@@ -148,8 +148,13 @@ public class LobbyLogic : NetworkBehaviour
 
     private void UpdatePlayerInfos()
     {
+        bool canStart = true;
         foreach (var item in playerInfos)
+        {
+            if (!item.Value.isReady) canStart = false;
             UpdatePlayerInfoClientRpc(item.Value);
+        }
+        startButton.gameObject.SetActive(canStart);
     }
 
     [ServerRpc(RequireOwnership = false)]
