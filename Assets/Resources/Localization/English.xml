@@ -76,4 +76,16 @@
     <Key>Name</Key>
     <Key>Name: </Key>
   </Entry>
+  <Entry>
+    <Key>ChatHere</Key>
+    <Key>Chat Here...</Key>
+  </Entry>
+  <Entry>
+    <Key>Chat</Key>
+    <Key>Chat</Key>
+  </Entry>
+  <Entry>
+    <Key>Send</Key>
+    <Key>Send</Key>
+  </Entry>
 </Localization>

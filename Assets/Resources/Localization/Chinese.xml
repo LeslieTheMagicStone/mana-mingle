@@ -77,4 +77,16 @@
     <Key>Name</Key>
     <Key>名字：</Key>
   </Entry>
+  <Entry>
+    <Key>ChatHere</Key>
+    <Key>聊点什么...</Key>
+  </Entry>
+  <Entry>
+    <Key>Chat</Key>
+    <Key>聊天</Key>
+  </Entry>
+  <Entry>
+    <Key>Send</Key>
+    <Key>发送</Key>
+  </Entry>
 </Localization>

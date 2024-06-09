@@ -90,6 +90,7 @@ public class LobbyLogic : NetworkBehaviour
 
     private void OnStartClick()
     {
+        UploadPlayerInfosClientRpc();
         GameManager.instance.LoadScene("DemoScene");
     }
 
@@ -138,6 +139,10 @@ public class LobbyLogic : NetworkBehaviour
         else UpdatePlayerInfosServerRpc(playerInfo);
         ModelPreviewManager.instance.SwitchVariant(PlayerVariant.Dark);
     }
+
+
+    [ClientRpc]
+    private void UploadPlayerInfosClientRpc() { GameManager.instance.StartGame(playerInfos); }
 
     private void UpdatePlayerInfo(ulong id, bool isReady)
     {

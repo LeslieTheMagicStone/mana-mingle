@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,11 +19,14 @@ public class GameManager : NetworkBehaviour
     private static GameManager _instance;
     private GameState _gameState;
 
+    public Dictionary<ulong, PlayerInfo> playerInfos { get; private set; }
+
     private void Awake()
     {
         if (_instance == null) _instance = this;
         else { Debug.LogError("Multiple GameManager instance detected!"); Destroy(gameObject); }
 
+        playerInfos = new();
     }
 
     private void Update()
@@ -31,6 +35,11 @@ public class GameManager : NetworkBehaviour
         if (gameState == GameState.Normal)
         {
         }
+    }
+
+    public void StartGame(Dictionary<ulong, PlayerInfo> playerInfos)
+    {
+        this.playerInfos = playerInfos;
     }
 
     public void SetGameState(GameState state)
