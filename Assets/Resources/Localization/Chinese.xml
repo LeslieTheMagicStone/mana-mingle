@@ -11,7 +11,7 @@
   </Entry>
   <Entry>
     <Key>Quit</Key>
-    <Key>润了</Key>
+    <Key>离开游戏</Key>
   </Entry>
   <Entry>
     <Key>Options</Key>
@@ -36,5 +36,29 @@
   <Entry>
     <Key>Main Menu</Key>
     <Key>主菜单</Key>
+  </Entry>
+  <Entry>
+    <Key>Create</Key>
+    <Key>创建房间</Key>
+  </Entry>
+  <Entry>
+    <Key>Join</Key>
+    <Key>加入房间</Key>
+  </Entry>
+  <Entry>
+    <Key>Player</Key>
+    <Key>玩家</Key>
+  </Entry>
+  <Entry>
+    <Key>IsReady</Key>
+    <Key>已准备</Key>
+  </Entry>
+  <Entry>
+    <Key>NotReady</Key>
+    <Key>未准备</Key>
+  </Entry>
+  <Entry>
+    <Key>Ready</Key>
+    <Key>准备</Key>
   </Entry>
 </Localization>

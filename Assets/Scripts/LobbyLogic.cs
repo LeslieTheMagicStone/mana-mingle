@@ -74,14 +74,32 @@ public class LobbyLogic : NetworkBehaviour
     private void OnReadyToggle(bool value)
     {
         cells[NetworkManager.LocalClientId].SetReady(value);
+        UpdatePlayerInfo(NetworkManager.LocalClientId, value);
+
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(playerInfos[NetworkManager.LocalClientId]);
+
+    }
+
+    private void UpdatePlayerInfo(ulong id, bool isReady)
+    {
+        PlayerInfo info = playerInfos[id];
+        info.isReady = isReady;
+        playerInfos[id] = info;
     }
 
     private void UpdatePlayerInfos()
     {
         foreach (var item in playerInfos)
-        {
             UpdatePlayerInfoClientRpc(item.Value);
-        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void UpdatePlayerInfosServerRpc(PlayerInfo playerInfo)
+    {
+        playerInfos[playerInfo.id] = playerInfo;
+        cells[playerInfo.id].SetReady(playerInfo.isReady);
+        UpdatePlayerInfos();
     }
 
     [ClientRpc]
@@ -90,5 +108,14 @@ public class LobbyLogic : NetworkBehaviour
         if (IsHost) return;
         if (playerInfos.ContainsKey(playerInfo.id)) playerInfos[playerInfo.id] = playerInfo;
         else AddPlayer(playerInfo);
+        UpdatePlayerCells();
+    }
+
+    private void UpdatePlayerCells()
+    {
+        foreach (var item in playerInfos)
+        {
+            cells[item.Key].SetReady(item.Value.isReady);
+        }
     }
 }
