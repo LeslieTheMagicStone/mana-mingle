@@ -329,7 +329,7 @@ MonoBehaviour:
   OnLanguageChanged:
     m_PersistentCalls:
       m_Calls: []
-  language: 1
+  language: 0
 --- !u!4 &212426861
 Transform:
   m_ObjectHideFlags: 0

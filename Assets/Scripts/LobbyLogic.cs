@@ -3,15 +3,23 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerVariant
+{
+    Light,
+    Dark,
+}
+
 public struct PlayerInfo : INetworkSerializable
 {
     public ulong id;
     public bool isReady;
+    public PlayerVariant variant;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref id);
         serializer.SerializeValue(ref isReady);
+        serializer.SerializeValue(ref variant);
     }
 }
 
@@ -21,6 +29,8 @@ public class LobbyLogic : NetworkBehaviour
     [SerializeField] private GameObject origCell;
     [SerializeField] private Button startButton;
     [SerializeField] private Toggle readyToggle;
+    [SerializeField] private Toggle lightToggle;
+    [SerializeField] private Toggle darkToggle;
 
     private Dictionary<ulong, PlayerListCell> cells;
     private Dictionary<ulong, PlayerInfo> playerInfos;
@@ -31,13 +41,16 @@ public class LobbyLogic : NetworkBehaviour
 
         startButton.onClick.AddListener(OnStartClick);
         readyToggle.onValueChanged.AddListener(OnReadyToggle);
+        lightToggle.onValueChanged.AddListener(OnLightToggle);
+        darkToggle.onValueChanged.AddListener(OnDarkToggle);
         cells = new();
         playerInfos = new();
 
         PlayerInfo playerInfo = new()
         {
             id = NetworkManager.LocalClientId,
-            isReady = false
+            isReady = false,
+            variant = PlayerVariant.Light,
         };
         AddPlayer(playerInfo);
     }
@@ -73,12 +86,36 @@ public class LobbyLogic : NetworkBehaviour
 
     private void OnReadyToggle(bool value)
     {
-        cells[NetworkManager.LocalClientId].SetReady(value);
         UpdatePlayerInfo(NetworkManager.LocalClientId, value);
+        cells[NetworkManager.LocalClientId].UpdateInfo(playerInfos[NetworkManager.LocalClientId]);
 
         if (IsServer) UpdatePlayerInfos();
         else UpdatePlayerInfosServerRpc(playerInfos[NetworkManager.LocalClientId]);
 
+    }
+
+    private void OnLightToggle(bool value)
+    {
+        if (!value) return;
+        var info = playerInfos[NetworkManager.LocalClientId];
+        info.variant = PlayerVariant.Light;
+        playerInfos[NetworkManager.LocalClientId] = info;
+        cells[NetworkManager.LocalClientId].UpdateInfo(info);
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(info);
+        ModelPreviewManager.instance.SwitchVariant(PlayerVariant.Light);
+    }
+
+    private void OnDarkToggle(bool value)
+    {
+        if (!value) return;
+        var info = playerInfos[NetworkManager.LocalClientId];
+        info.variant = PlayerVariant.Dark;
+        playerInfos[NetworkManager.LocalClientId] = info;
+        cells[NetworkManager.LocalClientId].UpdateInfo(info);
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(info);
+        ModelPreviewManager.instance.SwitchVariant(PlayerVariant.Dark);
     }
 
     private void UpdatePlayerInfo(ulong id, bool isReady)
@@ -98,7 +135,7 @@ public class LobbyLogic : NetworkBehaviour
     void UpdatePlayerInfosServerRpc(PlayerInfo playerInfo)
     {
         playerInfos[playerInfo.id] = playerInfo;
-        cells[playerInfo.id].SetReady(playerInfo.isReady);
+        cells[playerInfo.id].UpdateInfo(playerInfo);
         UpdatePlayerInfos();
     }
 
@@ -115,7 +152,7 @@ public class LobbyLogic : NetworkBehaviour
     {
         foreach (var item in playerInfos)
         {
-            cells[item.Key].SetReady(item.Value.isReady);
+            cells[item.Key].UpdateInfo(item.Value);
         }
     }
 }

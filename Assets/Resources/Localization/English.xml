@@ -60,4 +60,12 @@
     <Key>Ready</Key>
     <Key>Ready</Key>
   </Entry>
+  <Entry>
+    <Key>Light</Key>
+    <Key>Light</Key>
+  </Entry>
+  <Entry>
+    <Key>Dark</Key>
+    <Key>Dark</Key>
+  </Entry>
 </Localization>

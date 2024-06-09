@@ -61,4 +61,12 @@
     <Key>Ready</Key>
     <Key>准备</Key>
   </Entry>
+  <Entry>
+    <Key>Light</Key>
+    <Key>光</Key>
+  </Entry>
+  <Entry>
+    <Key>Dark</Key>
+    <Key>暗</Key>
+  </Entry>  
 </Localization>
