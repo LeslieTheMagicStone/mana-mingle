@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Linq;
+using Unity.Netcode;
 
 public enum HighlightMode
 {
@@ -7,7 +8,7 @@ public enum HighlightMode
     Cursor
 }
 
-public class PickerLogic : MonoBehaviour
+public class PickerLogic : NetworkBehaviour
 {
     public SpellSlotManager spellSlots => _spellSlots;
 
@@ -33,6 +34,13 @@ public class PickerLogic : MonoBehaviour
             if (currentHighlighted != null)
                 currentHighlighted.OnPick(this);
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        print("Hello, I'm spawn");
+        _spellSlots = FindAnyObjectByType<SpellSlotManager>();
+        print("Is spell slot null? " + _spellSlots == null);
     }
 
     private void UpdatePickables()

@@ -1,4 +1,6 @@
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -6,7 +8,7 @@ public enum GameState
     GameOver,
 }
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager instance => _instance;
     public bool debugMode => _debugMode;
@@ -15,10 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _debugMode;
     private static GameManager _instance;
     private GameState _gameState;
-
-    const float PICKING_STATE_TIME = 60f;
-    const float FIGHTING_STATE_TIME = 60f;
-
 
     private void Awake()
     {
@@ -44,5 +42,10 @@ public class GameManager : MonoBehaviour
         {
         }
         _gameState = state;
+    }
+
+    public void LoadScene(string name)
+    {
+        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 }

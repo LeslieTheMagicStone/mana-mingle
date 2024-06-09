@@ -31,4 +31,8 @@ public class ButtonScaleLogic : MonoBehaviour, IPointerEnterHandler, IPointerExi
         tweener = transform.DOScale(new Vector3(origScale.x * 0.95f, origScale.y * 0.95f, origScale.z), ANIM_TIME / 2);
         tweener.SetLoops(2, LoopType.Yoyo);
     }
+
+    private void OnDestroy() {
+        tweener?.Kill();
+    }
 }
