@@ -1,17 +1,29 @@
 using System.Collections.Generic;
+using System.Data.Common;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum PlayerVariant
+{
+    Light,
+    Dark,
+}
 
 public struct PlayerInfo : INetworkSerializable
 {
     public ulong id;
     public bool isReady;
+    public PlayerVariant variant;
+    public string name;
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
     {
         serializer.SerializeValue(ref id);
         serializer.SerializeValue(ref isReady);
+        serializer.SerializeValue(ref variant);
+        serializer.SerializeValue(ref name);
     }
 }
 
@@ -21,6 +33,9 @@ public class LobbyLogic : NetworkBehaviour
     [SerializeField] private GameObject origCell;
     [SerializeField] private Button startButton;
     [SerializeField] private Toggle readyToggle;
+    [SerializeField] private Toggle lightToggle;
+    [SerializeField] private Toggle darkToggle;
+    [SerializeField] private TMP_InputField nameInput;
 
     private Dictionary<ulong, PlayerListCell> cells;
     private Dictionary<ulong, PlayerInfo> playerInfos;
@@ -31,13 +46,18 @@ public class LobbyLogic : NetworkBehaviour
 
         startButton.onClick.AddListener(OnStartClick);
         readyToggle.onValueChanged.AddListener(OnReadyToggle);
+        lightToggle.onValueChanged.AddListener(OnLightToggle);
+        darkToggle.onValueChanged.AddListener(OnDarkToggle);
+        nameInput.onEndEdit.AddListener(OnNameEndEdit);
         cells = new();
         playerInfos = new();
 
         PlayerInfo playerInfo = new()
         {
             id = NetworkManager.LocalClientId,
-            isReady = false
+            isReady = false,
+            variant = PlayerVariant.Light,
+            name = "Player " + NetworkManager.LocalClientId.ToString(),
         };
         AddPlayer(playerInfo);
     }
@@ -60,7 +80,9 @@ public class LobbyLogic : NetworkBehaviour
         PlayerInfo playerInfo = new()
         {
             id = clientId,
-            isReady = false
+            isReady = false,
+            variant = PlayerVariant.Light,
+            name = "Player" + clientId.ToString(),
         };
         AddPlayer(playerInfo);
         UpdatePlayerInfos();
@@ -71,17 +93,71 @@ public class LobbyLogic : NetworkBehaviour
 
     }
 
+    private void OnNameEndEdit(string value)
+    {
+        if (string.IsNullOrEmpty(value)) return;
+
+        PlayerInfo playerInfo = playerInfos[NetworkManager.LocalClientId];
+        playerInfo.name = value;
+        playerInfos[NetworkManager.LocalClientId] = playerInfo;
+        cells[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(playerInfo);
+    }
+
     private void OnReadyToggle(bool value)
     {
-        cells[NetworkManager.LocalClientId].SetReady(value);
+        UpdatePlayerInfo(NetworkManager.LocalClientId, value);
+        cells[NetworkManager.LocalClientId].UpdateInfo(playerInfos[NetworkManager.LocalClientId]);
+
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(playerInfos[NetworkManager.LocalClientId]);
+
+    }
+
+    private void OnLightToggle(bool value)
+    {
+        if (!value) return;
+        var playerInfo = playerInfos[NetworkManager.LocalClientId];
+        playerInfo.variant = PlayerVariant.Light;
+        playerInfos[NetworkManager.LocalClientId] = playerInfo;
+        cells[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(playerInfo);
+        ModelPreviewManager.instance.SwitchVariant(PlayerVariant.Light);
+    }
+
+    private void OnDarkToggle(bool value)
+    {
+        if (!value) return;
+        var playerInfo = playerInfos[NetworkManager.LocalClientId];
+        playerInfo.variant = PlayerVariant.Dark;
+        playerInfos[NetworkManager.LocalClientId] = playerInfo;
+        cells[NetworkManager.LocalClientId].UpdateInfo(playerInfo);
+        if (IsServer) UpdatePlayerInfos();
+        else UpdatePlayerInfosServerRpc(playerInfo);
+        ModelPreviewManager.instance.SwitchVariant(PlayerVariant.Dark);
+    }
+
+    private void UpdatePlayerInfo(ulong id, bool isReady)
+    {
+        PlayerInfo playerInfo = playerInfos[id];
+        playerInfo.isReady = isReady;
+        playerInfos[id] = playerInfo;
     }
 
     private void UpdatePlayerInfos()
     {
         foreach (var item in playerInfos)
-        {
             UpdatePlayerInfoClientRpc(item.Value);
-        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    void UpdatePlayerInfosServerRpc(PlayerInfo playerInfo)
+    {
+        playerInfos[playerInfo.id] = playerInfo;
+        cells[playerInfo.id].UpdateInfo(playerInfo);
+        UpdatePlayerInfos();
     }
 
     [ClientRpc]
@@ -90,5 +166,14 @@ public class LobbyLogic : NetworkBehaviour
         if (IsHost) return;
         if (playerInfos.ContainsKey(playerInfo.id)) playerInfos[playerInfo.id] = playerInfo;
         else AddPlayer(playerInfo);
+        UpdatePlayerCells();
+    }
+
+    private void UpdatePlayerCells()
+    {
+        foreach (var item in playerInfos)
+        {
+            cells[item.Key].UpdateInfo(item.Value);
+        }
     }
 }

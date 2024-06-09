@@ -36,4 +36,44 @@
     <Key>Main Menu</Key>
     <Key>Main Menu</Key>
   </Entry>
+  <Entry>
+    <Key>Create</Key>
+    <Key>Create</Key>
+  </Entry>
+  <Entry>
+    <Key>Join</Key>
+    <Key>Join</Key>
+  </Entry>
+  <Entry>
+    <Key>Player</Key>
+    <Key>Player</Key>
+  </Entry>
+  <Entry>
+    <Key>IsReady</Key>
+    <Key>Is Ready</Key>
+  </Entry>
+  <Entry>
+    <Key>NotReady</Key>
+    <Key>Not Ready</Key>
+  </Entry>
+  <Entry>
+    <Key>Ready</Key>
+    <Key>Ready</Key>
+  </Entry>
+  <Entry>
+    <Key>Light</Key>
+    <Key>Light</Key>
+  </Entry>
+  <Entry>
+    <Key>Dark</Key>
+    <Key>Dark</Key>
+  </Entry>
+  <Entry>
+    <Key>EnterYourName</Key>
+    <Key>Enter Your Name...</Key>
+  </Entry>
+  <Entry>
+    <Key>Name</Key>
+    <Key>Name: </Key>
+  </Entry>
 </Localization>
