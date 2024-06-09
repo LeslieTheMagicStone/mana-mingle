@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 public class GameLogic : NetworkBehaviour
 {
+    [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
     [SerializeField] private RectTransform content;
     [SerializeField] private GameObject origChatCell;
@@ -13,6 +14,14 @@ public class GameLogic : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         sendButton.onClick.AddListener(OnSendClick);
+    }
+
+    public void SetChatActive(bool value) => chat.SetActive(value);
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.C)) { SetChatActive(true); }
+        if (Input.GetKeyDown(KeyCode.Escape)) { SetChatActive(false); }
     }
 
     private void OnSendClick()
