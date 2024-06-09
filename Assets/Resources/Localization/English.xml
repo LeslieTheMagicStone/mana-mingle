@@ -68,4 +68,12 @@
     <Key>Dark</Key>
     <Key>Dark</Key>
   </Entry>
+  <Entry>
+    <Key>EnterYourName</Key>
+    <Key>Enter Your Name...</Key>
+  </Entry>
+  <Entry>
+    <Key>Name</Key>
+    <Key>Name: </Key>
+  </Entry>
 </Localization>

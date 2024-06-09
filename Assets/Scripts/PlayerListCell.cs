@@ -3,7 +3,7 @@ using TMPro;
 
 public class PlayerListCell : MonoBehaviour
 {
-    private TMP_Text _id;
+    private TMP_Text _name;
     private GameObject _isReady;
     private GameObject _notReady;
     private GameObject _lightVariant;
@@ -13,12 +13,12 @@ public class PlayerListCell : MonoBehaviour
     public void Init(PlayerInfo playerInfo)
     {
         this.playerInfo = playerInfo;
-        _id = transform.Find("Id").GetComponent<TMP_Text>();
+        _name = transform.Find("Name").GetComponent<TMP_Text>();
         _isReady = transform.Find("IsReady").gameObject;
         _notReady = transform.Find("NotReady").gameObject;
         _lightVariant = transform.Find("Variant/LightVariant").gameObject;
         _darkVariant = transform.Find("Variant/DarkVariant").gameObject;
-        _id.text = playerInfo.id.ToString();
+        _name.text = playerInfo.name;
         _isReady.SetActive(playerInfo.isReady);
         _notReady.SetActive(!playerInfo.isReady);
         _lightVariant.SetActive(playerInfo.variant == PlayerVariant.Light);
@@ -30,6 +30,7 @@ public class PlayerListCell : MonoBehaviour
         this.playerInfo = playerInfo;
         SetReady(playerInfo.isReady);
         SetVariant(playerInfo.variant);
+        SetName(playerInfo.name);
     }
 
     private void SetReady(bool value)
@@ -42,5 +43,10 @@ public class PlayerListCell : MonoBehaviour
     {
         _lightVariant.SetActive(variant == PlayerVariant.Light);
         _darkVariant.SetActive(variant == PlayerVariant.Dark);
+    }
+
+    private void SetName(string value)
+    {
+        _name.text = value;
     }
 }

@@ -69,4 +69,12 @@
     <Key>Dark</Key>
     <Key>暗</Key>
   </Entry>  
+  <Entry>
+    <Key>EnterYourName</Key>
+    <Key>输入你的名字...</Key>
+  </Entry>
+  <Entry>
+    <Key>Name</Key>
+    <Key>名字：</Key>
+  </Entry>
 </Localization>
