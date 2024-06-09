@@ -6,7 +6,17 @@ using UnityEngine.UI;
 
 public class MainMenuLogic : MonoBehaviour
 {
+    [SerializeField] private Button create;
+    [SerializeField] private Button join;
+    [SerializeField] private Button quit;
     [SerializeField] private TMP_InputField ip;
+
+    private void Awake()
+    {
+        create.onClick.AddListener(OnCreateClick);
+        join.onClick.AddListener(OnJoinClick);
+        quit.onClick.AddListener(OnQuitClick);
+    }
 
     private void SetTransformData()
     {
@@ -14,13 +24,13 @@ public class MainMenuLogic : MonoBehaviour
         transport.SetConnectionData(ip.text, 7777);
     }
 
-    public void OnJoinClick()
+    private void OnJoinClick()
     {
         SetTransformData();
         NetworkManager.Singleton.StartClient();
     }
 
-    public void OnCreateClick()
+    private void OnCreateClick()
     {
         SetTransformData();
         NetworkManager.Singleton.StartHost();
@@ -28,7 +38,7 @@ public class MainMenuLogic : MonoBehaviour
         GameManager.instance.LoadScene("Lobby");
     }
 
-    public void OnQuitClick()
+    private void OnQuitClick()
     {
         Application.Quit();
     }
