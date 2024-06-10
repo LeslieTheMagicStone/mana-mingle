@@ -5,6 +5,7 @@ using Unity.Netcode;
 
 public class GameLogic : NetworkBehaviour
 {
+    public static GameLogic instance { get; private set; }
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
     [SerializeField] private RectTransform content;
@@ -13,10 +14,16 @@ public class GameLogic : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        instance = this;
         sendButton.onClick.AddListener(OnSendClick);
     }
 
     public void SetChatActive(bool value) => chat.SetActive(value);
+
+    public Transform GetSpawnPoint()
+    {
+        return GameObject.FindWithTag("SpawnPoint").transform;
+    }
 
     private void Update()
     {

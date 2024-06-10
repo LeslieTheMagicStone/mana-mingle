@@ -2,6 +2,7 @@ using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuLogic : MonoBehaviour
@@ -34,8 +35,7 @@ public class MainMenuLogic : MonoBehaviour
     {
         SetTransformData();
         NetworkManager.Singleton.StartHost();
-
-        GameManager.instance.LoadScene("Lobby");
+        SceneController.instance.LoadScene("Lobby");
     }
 
     private void OnQuitClick()

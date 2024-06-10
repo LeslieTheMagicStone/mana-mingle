@@ -3,6 +3,7 @@ using System.Data.Common;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum PlayerVariant
@@ -91,7 +92,7 @@ public class LobbyLogic : NetworkBehaviour
     private void OnStartClick()
     {
         UploadPlayerInfosClientRpc();
-        GameManager.instance.LoadScene("DemoScene");
+        SceneController.instance.LoadScene("DemoScene");
     }
 
     private void OnNameEndEdit(string value)
