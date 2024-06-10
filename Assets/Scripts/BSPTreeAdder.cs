@@ -29,9 +29,12 @@ public class BSPTreeAdder : EditorWindow
     {
         foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
         {
-            if (obj.GetComponent<MeshCollider>() != null && obj.GetComponent<BSPTree>() == null)
+            if (obj.GetComponent<MeshCollider>() != null
+            && obj.GetComponent<BSPTree>() == null
+            && obj.GetComponent<MeshCollider>().sharedMesh != null)
             {
                 obj.AddComponent<BSPTree>();
+                Debug.Log("Add One");
             }
         }
     }
@@ -51,7 +54,8 @@ public class BSPTreeAdder : EditorWindow
     {
         foreach (GameObject obj in GameObject.FindObjectsOfType<GameObject>())
         {
-            if (obj.GetComponent<BSPTree>() != null && obj.GetComponent<MeshCollider>() == null)
+            if (obj.GetComponent<BSPTree>() != null
+            && obj.GetComponent<MeshCollider>() == null)
             {
                 Debug.Log("GameObject " + obj.name + " has a BSPTree but no MeshCollider.");
             }
