@@ -22,7 +22,8 @@ namespace WarriorAnimsFREE
 		private float rotationX = 0f;
 		private float rotationY = 0f;
 
-		private const float lookSpeed = 1f;
+		private const float MOUSE_SENSITIVITY_X = 0.5f;
+		private const float MOUSE_SENSITIVITY_Y = 0.2f;
 
 		private void Start()
 		{
@@ -239,8 +240,8 @@ namespace WarriorAnimsFREE
 		{
 			// transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(warriorController.moveInput), Time.deltaTime * rotationSpeed);
 			// Handle mouse look
-			float mouseX = Input.GetAxis("Mouse X") * lookSpeed;
-			float mouseY = Input.GetAxis("Mouse Y") * lookSpeed;
+			float mouseX = Input.GetAxis("Mouse X") * MOUSE_SENSITIVITY_X;
+			float mouseY = Input.GetAxis("Mouse Y") * MOUSE_SENSITIVITY_Y;
 
 			rotationX -= mouseY;
 			rotationY += mouseX;
@@ -249,11 +250,6 @@ namespace WarriorAnimsFREE
 
 			transform.localRotation = Quaternion.Euler(0, rotationY, 0);
 			Camera.main.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-		}
-
-		private void OnGUI()
-		{
-			GUILayout.Label(warriorController.moveInput.ToString());
 		}
 	}
 }

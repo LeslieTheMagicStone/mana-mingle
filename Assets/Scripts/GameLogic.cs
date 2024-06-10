@@ -31,6 +31,10 @@ public class GameLogic : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) { SetChatActive(false); }
     }
 
+    private void AddTree(){
+        
+    }
+
     private void OnSendClick()
     {
         if (string.IsNullOrEmpty(input.text)) return;
