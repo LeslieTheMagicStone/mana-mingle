@@ -6,12 +6,37 @@ using System;
 public class PlayerInit : NetworkBehaviour
 {
     [SerializeField] private bool offlineMode;
+    readonly Vector3 farAway = new(1000, 0, 0);
     public override void OnNetworkSpawn()
     {
         GameManager.instance.onStartGame.AddListener(OnStartGame);
-        foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
-            transform.GetChild((int)variant).gameObject.SetActive(false);
 
+        foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
+        {
+            Transform tr = transform.GetChild((int)variant);
+            // Remove control from non-owners
+            if (!IsLocalPlayer)
+            {
+                Destroy(tr.GetComponent<GUIControls>());
+                Destroy(tr.GetComponent<WarriorInputController>());
+                Destroy(tr.GetComponent<WarriorMovementController>());
+                Destroy(tr.GetComponent<WarriorController>());
+                Destroy(tr.GetComponent<SuperCharacterController>());
+                Destroy(tr.GetComponent<AnimatorParentMove>());
+                Destroy(tr.GetComponent<WarriorTiming>());
+            }
+            else
+            {
+                tr.GetComponent<GUIControls>().enabled = false;
+                tr.GetComponent<WarriorInputController>().enabled = false;
+                tr.GetComponent<WarriorMovementController>().enabled = false;
+                tr.GetComponent<WarriorController>().enabled = false;
+                tr.GetComponent<SuperCharacterController>().enabled = false;
+                tr.GetComponent<AnimatorParentMove>().enabled = false;
+                tr.GetComponent<WarriorTiming>().enabled = false;
+            }
+            tr.transform.position = farAway;
+        }
     }
 
     private void Start()
@@ -32,15 +57,29 @@ public class PlayerInit : NetworkBehaviour
     public void OnStartGame()
     {
         PlayerInfo playerInfo = GameManager.instance.playerInfos[OwnerClientId];
-        Transform body = transform.GetChild((int)playerInfo.variant);
-        body.gameObject.SetActive(true);
-        body.transform.position = GameLogic.instance.GetSpawnPoint().position;
-        body.transform.rotation = GameLogic.instance.GetSpawnPoint().rotation;
-        Transform cameraSpawn = body.transform.Find("CameraSpawn");
 
+        // Not selected variant, then set active false.
+        foreach (PlayerVariant variant in Enum.GetValues(typeof(PlayerVariant)))
+        {
+            Transform tr = transform.GetChild((int)variant);
+            tr.gameObject.SetActive(variant == playerInfo.variant);
+        }
+
+        // Set position and rotation and camera to the selected body.
+        Transform body = transform.GetChild((int)playerInfo.variant);
+        Transform spawnPoint = GameLogic.instance.GetSpawnPoint();
+        body.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
 
         if (IsLocalPlayer)
         {
+            Transform cameraSpawn = body.transform.Find("CameraSpawn");
+            body.GetComponent<GUIControls>().enabled = true;
+            body.GetComponent<WarriorInputController>().enabled = true;
+            body.GetComponent<WarriorMovementController>().enabled = true;
+            body.GetComponent<WarriorController>().enabled = true;
+            body.GetComponent<SuperCharacterController>().enabled = true;
+            body.GetComponent<AnimatorParentMove>().enabled = true;
+            body.GetComponent<WarriorTiming>().enabled = true;
             Camera.main.transform.SetParent(cameraSpawn, false);
             Camera.main.transform.localPosition = Vector3.zero;
         }

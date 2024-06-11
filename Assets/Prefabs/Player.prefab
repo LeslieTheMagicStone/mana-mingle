@@ -1155,6 +1155,8 @@ GameObject:
   - component: {fileID: 5379461974764714516}
   - component: {fileID: 3299074218564871960}
   - component: {fileID: 2886664885863202816}
+  - component: {fileID: 1550241757118738973}
+  - component: {fileID: 6050907586821094731}
   m_Layer: 0
   m_Name: Dark
   m_TagString: Player
@@ -1354,6 +1356,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fcdb049e8840fe4c8aafe31c22098eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &1550241757118738973
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395295907344663467}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7c72ed3f90575084c9f3b5b585887182, type: 3}
+  m_Controller: {fileID: 9100000, guid: 537cff3fb7ebcef4096f3d9aa18a257e, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6050907586821094731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395295907344663467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc88c49e523068f4db2dd0b9a10743d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 1550241757118738973}
 --- !u!1 &3525278044187179094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,6 +1440,8 @@ GameObject:
   - component: {fileID: 4351353877529600188}
   - component: {fileID: 6965503904403076957}
   - component: {fileID: 6451782826397757620}
+  - component: {fileID: 4749522395279867434}
+  - component: {fileID: 4895245728020350109}
   m_Layer: 0
   m_Name: Light
   m_TagString: Player
@@ -1602,6 +1641,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fcdb049e8840fe4c8aafe31c22098eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &4749522395279867434
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542528874880396980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7c72ed3f90575084c9f3b5b585887182, type: 3}
+  m_Controller: {fileID: 9100000, guid: 537cff3fb7ebcef4096f3d9aa18a257e, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4895245728020350109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542528874880396980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc88c49e523068f4db2dd0b9a10743d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 4749522395279867434}
 --- !u!1 &3591764443888315306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1697,8 +1771,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5897796609583521344}
-  - component: {fileID: 2919106453530783547}
-  - component: {fileID: 5297898870734777390}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -1724,41 +1796,6 @@ Transform:
   - {fileID: 7127978178620601235}
   m_Father: {fileID: 2598364955817085818}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2919106453530783547
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667259907560515558}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7c72ed3f90575084c9f3b5b585887182, type: 3}
-  m_Controller: {fileID: 9100000, guid: 537cff3fb7ebcef4096f3d9aa18a257e, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5297898870734777390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3667259907560515558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 2919106453530783547}
 --- !u!1 &3680600121105145054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,8 +2726,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4024067630663083465}
-  - component: {fileID: 9002908173481005522}
-  - component: {fileID: 4199946878147677498}
   m_Layer: 0
   m_Name: Mage
   m_TagString: Untagged
@@ -2716,41 +2751,6 @@ Transform:
   - {fileID: 8092391889879979512}
   m_Father: {fileID: 6431258547174016137}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &9002908173481005522
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415383513224849669}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7c72ed3f90575084c9f3b5b585887182, type: 3}
-  m_Controller: {fileID: 9100000, guid: 537cff3fb7ebcef4096f3d9aa18a257e, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4199946878147677498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5415383513224849669}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TransitionStateInfoList: []
-  m_Animator: {fileID: 9002908173481005522}
 --- !u!1 &5495568527565020036
 GameObject:
   m_ObjectHideFlags: 0
