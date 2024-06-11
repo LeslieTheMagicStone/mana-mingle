@@ -53,27 +53,29 @@ namespace WarriorAnimsFREE
 			// Move the player by our velocity every frame.
 			transform.position += currentVelocity * warriorController.superCharacterController.deltaTime;
 
+			// Calculate the local velocity
+			Vector3 localVelocity = transform.InverseTransformDirection(currentVelocity);
+
 			// If alive and is moving, set animator.
 			if (warriorController.canMove)
 			{
-				if (currentVelocity.magnitude > 0 && warriorController.HasMoveInput())
+				if (localVelocity.magnitude > 0 && warriorController.HasMoveInput())
 				{
 					warriorController.isMoving = true;
 					warriorController.SetAnimatorBool("Moving", true);
-					warriorController.SetAnimatorFloat("Velocity", currentVelocity.magnitude);
+					warriorController.SetAnimatorFloat("Horizontal", localVelocity.x);
+					warriorController.SetAnimatorFloat("Velocity", localVelocity.z);
 				}
 				else
 				{
 					warriorController.isMoving = false;
 					warriorController.SetAnimatorBool("Moving", false);
+					warriorController.SetAnimatorFloat("Horizontal", 0);
 					warriorController.SetAnimatorFloat("Velocity", 0);
 				}
 			}
 
 			HandleRotation();
-
-			// Update animator with local movement values.
-			// warriorController.SetAnimatorFloat("Velocity", transform.InverseTransformDirection(currentVelocity).z);
 		}
 
 		#endregion
