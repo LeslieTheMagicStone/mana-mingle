@@ -9,7 +9,7 @@ namespace WarriorAnimsFREE
 		[HideInInspector] public float inputHorizontal = 0;
 		[HideInInspector] public float inputVertical = 0;
 
-		public Vector3 moveInput { get { return CameraRelativeInput(inputHorizontal, inputVertical); } }
+		public Vector3 moveInput { get { return RelativeInput(inputHorizontal, inputVertical); } }
 
 		private void Update()
 		{

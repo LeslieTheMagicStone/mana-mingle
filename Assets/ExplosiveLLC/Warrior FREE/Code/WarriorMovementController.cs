@@ -54,7 +54,7 @@ namespace WarriorAnimsFREE
 			transform.position += currentVelocity * warriorController.superCharacterController.deltaTime;
 
 			// Calculate the local velocity
-			Vector3 localVelocity = transform.InverseTransformDirection(currentVelocity);
+			Vector3 localVelocity = transform.InverseTransformDirection(currentVelocity) / runSpeed;
 
 			// If alive and is moving, set animator.
 			if (warriorController.canMove)
