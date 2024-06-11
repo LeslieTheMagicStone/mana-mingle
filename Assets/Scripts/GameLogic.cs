@@ -16,6 +16,7 @@ public class GameLogic : NetworkBehaviour
     {
         instance = this;
         sendButton.onClick.AddListener(OnSendClick);
+        input.onSubmit.AddListener((s) => OnSendClick());
         chat.SetActive(false);
     }
 
@@ -28,13 +29,8 @@ public class GameLogic : NetworkBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C)) { SetChatActive(true); }
+        if (Input.GetKeyDown(KeyCode.Slash)) { SetChatActive(true); input.ActivateInputField(); }
         if (Input.GetKeyDown(KeyCode.Escape)) { SetChatActive(false); }
-    }
-
-    private void AddTree()
-    {
-
     }
 
     private void OnSendClick()
