@@ -73,7 +73,7 @@ namespace WarriorAnimsFREE
 			HandleRotation();
 
 			// Update animator with local movement values.
-			warriorController.SetAnimatorFloat("Velocity", transform.InverseTransformDirection(currentVelocity).z);
+			// warriorController.SetAnimatorFloat("Velocity", transform.InverseTransformDirection(currentVelocity).z);
 		}
 
 		#endregion
