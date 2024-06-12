@@ -30,14 +30,14 @@ public class SpellSlotManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Prev" + attachedPlayer.playerID.ToString()))
+        if (Input.GetButtonDown("Prev"))
         {
             currentSlot.SetHighlight(false);
             currentSlotIndex--;
             if (currentSlotIndex < 0) currentSlotIndex = spellSlots.Length - 1;
             currentSlot.SetHighlight(true);
         }
-        if (Input.GetButtonDown("Next" + attachedPlayer.playerID.ToString()))
+        if (Input.GetButtonDown("Next"))
         {
             currentSlot.SetHighlight(false);
             currentSlotIndex++;

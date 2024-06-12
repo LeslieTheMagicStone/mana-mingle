@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
         if (master == null) master = GetComponentInParent<Damageable>();
         if (master == null) { Debug.LogWarning("No Damageable found on parent."); return; }
 
-        master.OnHurt.AddListener(UpdateHealth);
+        master.onHurt.AddListener(UpdateHealth);
 
         maxWidth = transform.localScale.x;
         localScale = transform.localScale;
