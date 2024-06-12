@@ -2,6 +2,14 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Scenes
+{
+    Init,
+    MainMenu,
+    Lobby,
+    GameScene,
+}
+
 public class SceneController : NetworkBehaviour
 {
     public static SceneController instance { get; private set; }
@@ -10,8 +18,8 @@ public class SceneController : NetworkBehaviour
         if (instance == null) { instance = this; DontDestroyOnLoad(gameObject); }
         else Destroy(gameObject);
     }
-    public void LoadScene(string name)
+    public void LoadScene(Scenes scene)
     {
-        NetworkManager.SceneManager.LoadScene(name, LoadSceneMode.Single);
+        NetworkManager.SceneManager.LoadScene(scene.ToString(), LoadSceneMode.Single);
     }
 }

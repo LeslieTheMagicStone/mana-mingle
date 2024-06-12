@@ -92,7 +92,7 @@ public class LobbyLogic : NetworkBehaviour
     private void OnStartClick()
     {
         UploadPlayerInfosClientRpc();
-        SceneController.instance.LoadScene("DemoScene");
+        SceneController.instance.LoadScene(Scenes.GameScene);
     }
 
     private void OnNameEndEdit(string value)

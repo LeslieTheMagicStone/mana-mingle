@@ -22,9 +22,6 @@ public class GameManager : NetworkBehaviour
     private static GameManager _instance;
     private GameState _gameState;
 
-    const string GAME_SCENE_NAME = "DemoScene";
-
-
     private void Start()
     {
         if (_instance == null) { _instance = this; DontDestroyOnLoad(gameObject); }
@@ -68,7 +65,7 @@ public class GameManager : NetworkBehaviour
 
     private void OnLoadEventComplete(string sceneName, LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (sceneName == GAME_SCENE_NAME)
+        if (sceneName == Scenes.GameScene.ToString())
         {
             onStartGame.Invoke();
         }

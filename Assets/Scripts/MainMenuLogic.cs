@@ -35,7 +35,7 @@ public class MainMenuLogic : MonoBehaviour
     {
         SetTransformData();
         NetworkManager.Singleton.StartHost();
-        SceneController.instance.LoadScene("Lobby");
+        SceneController.instance.LoadScene(Scenes.Lobby);
     }
 
     private void OnQuitClick()

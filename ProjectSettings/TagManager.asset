@@ -11,13 +11,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Hidden
+  - 
   - Water
   - UI
   - 
   - 
   - TempCast
   - Walkable
+  - Hidden
   - 
   - 
   - 
@@ -38,8 +39,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - AlwaysVisible
   m_SortingLayers:
   - name: Default
     uniqueID: 0
