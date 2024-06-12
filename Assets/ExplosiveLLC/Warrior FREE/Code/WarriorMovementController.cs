@@ -242,6 +242,8 @@ namespace WarriorAnimsFREE
 		{
 			// transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(warriorController.moveInput), Time.deltaTime * rotationSpeed);
 			// Handle mouse look
+			if (Cursor.lockState != CursorLockMode.Locked) return;
+
 			float mouseX = Input.GetAxis("Mouse X") * MOUSE_SENSITIVITY_X;
 			float mouseY = Input.GetAxis("Mouse Y") * MOUSE_SENSITIVITY_Y;
 

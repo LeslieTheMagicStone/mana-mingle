@@ -15,7 +15,7 @@ public class WandLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1" + playerLogic.playerID.ToString()))
+        if (Input.GetButtonDown("Fire1"))
         {
             if (spellSlot.spell == null) return;
             if (!manaLogic.TryCostMana(spellSlot.spell.mana)) { print("Not enough mana."); return; }

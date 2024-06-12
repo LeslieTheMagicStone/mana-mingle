@@ -23,7 +23,7 @@ public class PickerLogic : NetworkBehaviour
     private void Awake()
     {
         var player = GetComponent<PlayerLogic>();
-        pickButtonName = "Pick" + player.playerID.ToString();
+        pickButtonName = "Pick";
     }
 
     private void Update()

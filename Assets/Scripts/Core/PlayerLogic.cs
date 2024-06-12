@@ -1,17 +1,9 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public enum PlayerID
-{
-    _P1,
-    _P2,
-}
-
 public class PlayerLogic : NetworkBehaviour
 {
-    public PlayerID playerID => _playerID;
-    [SerializeField] private PlayerID _playerID;
-    [SerializeField] private Camera cameraObject;
+    [SerializeField] private Damager bulletPrefab;
     private Vector3 direction;
     private Vector3 velocity;
     private float verticalRotation = 0;
@@ -23,24 +15,39 @@ public class PlayerLogic : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        GameObject[] tempObjects = GameObject.FindGameObjectsWithTag("TempObject");
-        foreach (var obj in tempObjects) Destroy(obj);
-        cameraObject.gameObject.SetActive(IsOwner);
         if (!IsOwner) enabled = false;
     }
 
     private void Update()
     {
-        HandleMovement();
-        HandleRotation();
+        // HandleMovement();
+        // HandleRotation();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShootBulletServerRpc(NetworkManager.LocalClientId);
+        }
+    }
+
+    [ServerRpc]
+    private void ShootBulletServerRpc(ulong shooter)
+    {
+        ShootBulletClientRpc(shooter);
+    }
+
+    [ClientRpc]
+    private void ShootBulletClientRpc(ulong shooter)
+    {
+        var bullet = Instantiate(bulletPrefab, transform.position + transform.forward + transform.up, transform.rotation);
+        bullet.SetOwnerId(shooter);
     }
 
     private void HandleMovement()
     {
-        float horizontalInput = Input.GetAxis("Horizontal" + playerID.ToString());
-        float verticalInput = Input.GetAxis("Vertical" + playerID.ToString());
-        float horizontalInputRaw = Input.GetAxisRaw("Horizontal" + playerID.ToString());
-        float verticalInputRaw = Input.GetAxisRaw("Vertical" + playerID.ToString());
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        float horizontalInputRaw = Input.GetAxisRaw("Horizontal");
+        float verticalInputRaw = Input.GetAxisRaw("Vertical");
         direction = new Vector3(horizontalInputRaw, 0, verticalInputRaw);
         if (direction.magnitude == 0)
         {
