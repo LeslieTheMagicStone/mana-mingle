@@ -4,15 +4,15 @@ using UnityEngine.Events;
 
 public class PickableObject : MonoBehaviour
 {
-    [SerializeField] private Material outlinePrefab;
+    protected MeshRenderer targetRenderer;
     private Material outline;
-    private MeshRenderer meshRenderer;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.materials = meshRenderer.materials.Append(outlinePrefab).ToArray();
-        outline = meshRenderer.materials[^1];
+        var origOutline = Resources.Load<Material>("Materials/Outline");
+        if (targetRenderer == null) targetRenderer = GetComponent<MeshRenderer>();
+        targetRenderer.materials = targetRenderer.materials.Append(origOutline).ToArray();
+        outline = targetRenderer.materials[^1];
         OnHighlightExit();
     }
 

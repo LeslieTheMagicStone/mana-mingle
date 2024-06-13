@@ -1477,6 +1477,8 @@ GameObject:
   - component: {fileID: 9085041144307520058}
   - component: {fileID: 4011593179014877149}
   - component: {fileID: 6757234894851307109}
+  - component: {fileID: 3980103652584834482}
+  - component: {fileID: 5999789548100600271}
   m_Layer: 0
   m_Name: Light
   m_TagString: Player
@@ -1770,6 +1772,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 8783709955490650382}
+--- !u!114 &3980103652584834482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542528874880396980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a107db32a6568f94c8e58a4a6cda0b38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5999789548100600271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3542528874880396980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aae819ac248e1149a568daeb37eb50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightMode: 0
 --- !u!1 &3591764443888315306
 GameObject:
   m_ObjectHideFlags: 0

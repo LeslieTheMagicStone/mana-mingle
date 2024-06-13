@@ -10,26 +10,23 @@ public enum HighlightMode
 
 public class PickerLogic : MonoBehaviour
 {
-    public SpellSlotManager spellSlots => _spellSlots;
+    public Backpack backpack { get; private set; }
 
-    [SerializeField] private SpellSlotManager _spellSlots;
     [SerializeField] private HighlightMode highlightMode;
 
     private PickableObject currentHighlighted;
-    private string pickButtonName;
 
     const float MAX_RANGE = 4f;
 
     private void Awake()
     {
-        var player = GetComponent<PlayerLogic>();
-        pickButtonName = "Pick";
+        backpack = GetComponent<Backpack>();
     }
 
     private void Update()
     {
         UpdatePickables();
-        if (Input.GetButtonDown(pickButtonName))
+        if (Input.GetButtonDown("Pick"))
         {
             if (currentHighlighted != null)
                 currentHighlighted.OnPick(this);

@@ -4,11 +4,13 @@ public class PickableSpell : PickableObject
 {
     [SerializeField] private SpellBase spell;
     [SerializeField] private Transform display;
-    private const float DISPLAY_SPEED = 1f;
+    private const float DISPLAY_SPEED = 90f;
 
-    private void Awake()
+    protected override void Awake()
     {
-        var appearance = Instantiate(spell.appearance, display);
+        var appearance = Instantiate(spell.gameObject, display);
+        targetRenderer = appearance.GetComponent<MeshRenderer>();
+        base.Awake();
     }
 
     private void Update()
@@ -18,7 +20,7 @@ public class PickableSpell : PickableObject
 
     public override void OnPick(PickerLogic picker)
     {
-        picker.spellSlots.AddSpell(spell);
+        picker.backpack.AddSpell(spell);
         Destroy(gameObject);
     }
 }

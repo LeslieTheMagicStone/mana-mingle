@@ -23,6 +23,7 @@ public class PlayerInit : NetworkBehaviour
                 Destroy(tr.GetComponent<SuperCharacterController>());
                 Destroy(tr.GetComponent<AnimatorParentMove>());
                 Destroy(tr.GetComponent<WarriorTiming>());
+                Destroy(tr.GetComponent<Backpack>());
             }
             else
             {
