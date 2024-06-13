@@ -6,7 +6,7 @@ using Unity.Netcode;
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic instance { get; private set; }
-    public NetworkObject localPlayer { get; private set; }
+    public GameObject localPlayer { get; private set; }
     [Header("Chat")]
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
@@ -28,10 +28,12 @@ public class GameLogic : NetworkBehaviour
 
         PlayerInfo playerInfo = GameManager.instance.playerInfos[NetworkManager.LocalClientId];
         playerName.text = playerInfo.name;
-        
-        localPlayer = NetworkManager.LocalClient.PlayerObject;
+
+        localPlayer = NetworkManager.LocalClient.PlayerObject.transform.GetChild((int)playerInfo.variant).gameObject;
         var damageable = localPlayer.GetComponent<Damageable>();
         damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
+        print((int)playerInfo.variant);
+        print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
     }
 

@@ -3,6 +3,18 @@ using UnityEngine;
 public class PickableSpell : PickableObject
 {
     [SerializeField] private SpellBase spell;
+    [SerializeField] private Transform display;
+    private const float DISPLAY_SPEED = 1f;
+
+    private void Awake()
+    {
+        var appearance = Instantiate(spell.appearance, display);
+    }
+
+    private void Update()
+    {
+        display.Rotate(Vector3.up, DISPLAY_SPEED * Time.deltaTime);
+    }
 
     public override void OnPick(PickerLogic picker)
     {

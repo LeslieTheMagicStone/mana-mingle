@@ -8,7 +8,7 @@ public enum HighlightMode
     Cursor
 }
 
-public class PickerLogic : NetworkBehaviour
+public class PickerLogic : MonoBehaviour
 {
     public SpellSlotManager spellSlots => _spellSlots;
 
@@ -36,20 +36,14 @@ public class PickerLogic : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
-    {
-        print("Hello, I'm spawn");
-        _spellSlots = FindAnyObjectByType<SpellSlotManager>();
-        print("Is spell slot null? " + _spellSlots == null);
-    }
-
     private void UpdatePickables()
     {
 
         if (highlightMode == HighlightMode.Cursor)
         {
             PickableObject newHighlighted = null;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // Screen center ray
+            Ray ray = Camera.main.ViewportPointToRay(new(0.5f, 0.5f, 0));
             Debug.DrawRay(ray.origin, ray.direction, Color.yellow, 0.1f);
             if (Physics.Raycast(ray, out RaycastHit hit, MAX_RANGE))
                 hit.collider.TryGetComponent(out newHighlighted);
