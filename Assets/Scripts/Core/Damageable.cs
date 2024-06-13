@@ -14,7 +14,7 @@ public class Damageable : NetworkBehaviour
     [SerializeField] private Side _side;
     [SerializeField] private int _maxHealth;
     [SerializeField] private GameObject deathParticles;
-    private NetworkVariable<int> _health = new(writePerm: NetworkVariableWritePermission.Server);
+    public NetworkVariable<int> _health = new(writePerm: NetworkVariableWritePermission.Server);
     private Vector3 origPos;
     private Tween shakeTween;
     private bool isInvincible => invincibleTimer > 0;

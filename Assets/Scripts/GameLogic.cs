@@ -6,11 +6,18 @@ using Unity.Netcode;
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic instance { get; private set; }
+    public NetworkObject localPlayer { get; private set; }
+    [Header("Chat")]
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
     [SerializeField] private RectTransform content;
     [SerializeField] private GameObject origChatCell;
     [SerializeField] private Button sendButton;
+    [Header("Player Info")]
+    [SerializeField] private TMP_Text playerName;
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private Slider manaBar;
+    [SerializeField] private Transform models;
 
     public override void OnNetworkSpawn()
     {
@@ -18,6 +25,14 @@ public class GameLogic : NetworkBehaviour
         sendButton.onClick.AddListener(OnSendClick);
         input.onSubmit.AddListener((s) => OnSendClick());
         chat.SetActive(false);
+
+        PlayerInfo playerInfo = GameManager.instance.playerInfos[NetworkManager.LocalClientId];
+        playerName.text = playerInfo.name;
+        
+        localPlayer = NetworkManager.LocalClient.PlayerObject;
+        var damageable = localPlayer.GetComponent<Damageable>();
+        damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
+        models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
     }
 
     public void SetChatActive(bool value) => chat.SetActive(value);
