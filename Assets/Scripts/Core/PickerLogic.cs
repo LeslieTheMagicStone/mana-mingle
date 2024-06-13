@@ -4,8 +4,8 @@ using Unity.Netcode;
 
 public enum HighlightMode
 {
+    Cursor,
     Auto,
-    Cursor
 }
 
 public class PickerLogic : MonoBehaviour

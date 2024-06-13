@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   master: {fileID: 0}
+  isPlayer: 0
 --- !u!1 &8291354872780574439
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +279,7 @@ GameObject:
   - component: {fileID: 8806981683704356823}
   - component: {fileID: 8845092631877925946}
   - component: {fileID: 1728458508381040020}
+  - component: {fileID: 1192843638534629117}
   m_Layer: 0
   m_Name: Hit
   m_TagString: Untagged
@@ -411,12 +413,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a87ffb4d92cf6418b5030f179a30b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnHurt:
+  onHurt:
     m_PersistentCalls:
       m_Calls: []
-  OnDeath:
+  onDeath:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 5
   _side: 2
+  _maxHealth: 5
   deathParticles: {fileID: 0}
+  _health:
+    m_InternalValue: 0
+--- !u!114 &1192843638534629117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463857146347418459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

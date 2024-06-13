@@ -53,6 +53,12 @@ public class GameLogic : NetworkBehaviour
         SetCursorLock(true);
     }
 
+    // private void OnGUI()
+    // {
+    //     GUILayout.Label(Cursor.lockState.ToString());
+    //     GUILayout.Label($"UIDepth: {UiDepth}");
+    // }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Slash))
@@ -71,12 +77,6 @@ public class GameLogic : NetworkBehaviour
             if (UiDepth == 0) SwitchCursorLock();
             SetChatActive(false);
             SetBackpackActive(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            print("ADD spell");
-            AddSpellPreview(testspell);
         }
     }
 
@@ -112,6 +112,7 @@ public class GameLogic : NetworkBehaviour
 
     public void SwitchCursorLock()
     {
+        print($"Set Cursor Lock State to {Cursor.lockState == CursorLockMode.None}");
         SetCursorLock(Cursor.lockState == CursorLockMode.None);
     }
 

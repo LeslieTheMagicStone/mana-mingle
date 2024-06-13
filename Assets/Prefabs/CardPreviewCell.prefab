@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2020246233198240585}
   - component: {fileID: 2894837403859854792}
   m_Layer: 0
-  m_Name: CardPreview
+  m_Name: CardPreviewCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
