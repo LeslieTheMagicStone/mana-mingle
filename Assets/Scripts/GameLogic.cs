@@ -32,6 +32,8 @@ public class GameLogic : NetworkBehaviour
         localPlayer = NetworkManager.LocalClient.PlayerObject.transform.GetChild((int)playerInfo.variant).gameObject;
         var damageable = localPlayer.GetComponent<Damageable>();
         damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
+        print((int)playerInfo.variant);
+        print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
     }
 

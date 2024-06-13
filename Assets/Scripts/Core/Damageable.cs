@@ -64,18 +64,18 @@ public class Damageable : NetworkBehaviour
         shakeTween?.Kill();
     }
 
-    private void OnGUI()
-    {
-        if (!IsOwner)
-        {
-            GUILayout.BeginArea(new Rect(0, 300, 200, 200));
-            GUILayout.Label($"Other Health: {health}");
-            GUILayout.EndArea();
-        }
-        else
-        {
-            GUILayout.Label($"Self Health: {health}");
-            GUILayout.Label($"Debug Health: {debugHealth}");
-        }
-    }
+    // private void OnGUI()
+    // {
+    //     if (!IsOwner)
+    //     {
+    //         GUILayout.BeginArea(new Rect(0, 300, 200, 200));
+    //         GUILayout.Label($"Other Health: {health}");
+    //         GUILayout.EndArea();
+    //     }
+    //     else
+    //     {
+    //         GUILayout.Label($"Self Health: {health}");
+    //         GUILayout.Label($"Debug Health: {debugHealth}");
+    //     }
+    // }
 }

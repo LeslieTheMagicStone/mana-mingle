@@ -17,7 +17,6 @@ public class PlayerInit : NetworkBehaviour
             // Remove control from non-owners
             if (!IsLocalPlayer)
             {
-                Destroy(tr.GetComponent<GUIControls>());
                 Destroy(tr.GetComponent<WarriorInputController>());
                 Destroy(tr.GetComponent<WarriorMovementController>());
                 Destroy(tr.GetComponent<WarriorController>());
@@ -27,7 +26,6 @@ public class PlayerInit : NetworkBehaviour
             }
             else
             {
-                tr.GetComponent<GUIControls>().enabled = false;
                 tr.GetComponent<WarriorInputController>().enabled = false;
                 tr.GetComponent<WarriorMovementController>().enabled = false;
                 tr.GetComponent<WarriorController>().enabled = false;
@@ -73,7 +71,6 @@ public class PlayerInit : NetworkBehaviour
         if (IsLocalPlayer)
         {
             Transform cameraSpawn = body.transform.Find("CameraSpawn");
-            body.GetComponent<GUIControls>().enabled = true;
             body.GetComponent<WarriorInputController>().enabled = true;
             body.GetComponent<WarriorMovementController>().enabled = true;
             body.GetComponent<WarriorController>().enabled = true;
