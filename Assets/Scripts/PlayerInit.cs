@@ -83,6 +83,11 @@ public class PlayerInit : NetworkBehaviour
             body.GetComponent<PickerLogic>().enabled = true;
             Camera.main.transform.SetParent(cameraSpawn, false);
             Camera.main.transform.localPosition = Vector3.zero;
+
+            var mapCam = GameObject.Find("MapCamera");
+            mapCam.transform.SetParent(body);
+            Vector3 xzZero = new(0, mapCam.transform.localPosition.y, 0);
+            mapCam.transform.localPosition = xzZero;
         }
     }
 }

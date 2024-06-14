@@ -704,7 +704,7 @@ MonoBehaviour:
   selectPoint: {fileID: 516106449}
   canvas: {fileID: 1726108350}
   origSpellPreview: {fileID: 5918443405144043474}
-  spellPreviews: []
+  cards: []
 --- !u!1 &1847889864
 GameObject:
   m_ObjectHideFlags: 0
