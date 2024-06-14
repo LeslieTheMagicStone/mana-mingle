@@ -31,14 +31,14 @@ public class PickableObject : NetworkBehaviour
 
     protected void Despawn()
     {
-        print("On Despawn");
+        // print("On Despawn");
         DespawnServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
     protected void DespawnServerRpc()
     {
-        print("On RPC Despawn");
+        // print("On RPC Despawn");
         GetComponent<NetworkObject>().Despawn();
     }
 }
