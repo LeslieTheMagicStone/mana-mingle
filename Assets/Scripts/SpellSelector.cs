@@ -40,8 +40,8 @@ public class SpellSelector : MonoBehaviour
 
         for (int i = 0; i < spellPreviews.Count; i++)
         {
-            sequence.AppendCallback(() => spellPreviews[i].transform.DOPath(stopPositions, ANIM_TIME * stopPositions.Length).SetDelay(0));
             sequence.AppendInterval(ANIM_TIME);
+
         }
     }
 
