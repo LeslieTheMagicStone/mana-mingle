@@ -24,6 +24,7 @@ public class PlayerInit : NetworkBehaviour
                 Destroy(tr.GetComponent<AnimatorParentMove>());
                 Destroy(tr.GetComponent<WarriorTiming>());
                 Destroy(tr.GetComponent<Backpack>());
+                Destroy(tr.GetComponent<PickerLogic>());
             }
             else
             {
@@ -33,6 +34,7 @@ public class PlayerInit : NetworkBehaviour
                 tr.GetComponent<SuperCharacterController>().enabled = false;
                 tr.GetComponent<AnimatorParentMove>().enabled = false;
                 tr.GetComponent<WarriorTiming>().enabled = false;
+                tr.GetComponent<PickerLogic>().enabled = false;
             }
             tr.transform.position = farAway;
         }
@@ -78,6 +80,7 @@ public class PlayerInit : NetworkBehaviour
             body.GetComponent<SuperCharacterController>().enabled = true;
             body.GetComponent<AnimatorParentMove>().enabled = true;
             body.GetComponent<WarriorTiming>().enabled = true;
+            body.GetComponent<PickerLogic>().enabled = true;
             Camera.main.transform.SetParent(cameraSpawn, false);
             Camera.main.transform.localPosition = Vector3.zero;
         }

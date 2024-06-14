@@ -1,8 +1,9 @@
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PickableObject : MonoBehaviour
+public class PickableObject : NetworkBehaviour
 {
     protected MeshRenderer targetRenderer;
     private Material outline;
@@ -27,4 +28,15 @@ public class PickableObject : MonoBehaviour
     }
 
     public virtual void OnPick(PickerLogic picker) { }
+
+    protected void Despawn()
+    {
+        DespawnServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void DespawnServerRpc()
+    {
+        GetComponent<NetworkObject>().Despawn();
+    }
 }

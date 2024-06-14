@@ -4,9 +4,15 @@ using TMPro;
 
 public class SimpleInfo : MonoBehaviour
 {
+    TMP_Text text;
     public void Start()
     {
-        var text = GetComponentInChildren<TMP_Text>();
-        text.text = GetComponentInParent<Damager>().ownerId.ToString();
+        text = GetComponentInChildren<TMP_Text>();
+    }
+
+    private void Update()
+    {
+
+        text.text = GetComponentInParent<NetworkObject>().OwnerClientId.ToString();
     }
 }

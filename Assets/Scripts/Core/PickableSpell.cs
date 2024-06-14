@@ -21,6 +21,6 @@ public class PickableSpell : PickableObject
     public override void OnPick(PickerLogic picker)
     {
         picker.backpack.AddSpell(spell);
-        Destroy(gameObject);
+        Despawn();
     }
 }
