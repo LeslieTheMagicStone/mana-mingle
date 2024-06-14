@@ -8,7 +8,7 @@ public class PickableObject : NetworkBehaviour
     protected MeshRenderer targetRenderer;
     private Material outline;
 
-    protected virtual void Awake()
+    public virtual void Init()
     {
         var origOutline = Resources.Load<Material>("Materials/Outline");
         if (targetRenderer == null) targetRenderer = GetComponent<MeshRenderer>();
@@ -31,12 +31,14 @@ public class PickableObject : NetworkBehaviour
 
     protected void Despawn()
     {
+        print("On Despawn");
         DespawnServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
     protected void DespawnServerRpc()
     {
+        print("On RPC Despawn");
         GetComponent<NetworkObject>().Despawn();
     }
 }

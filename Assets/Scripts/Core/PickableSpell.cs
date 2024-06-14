@@ -1,16 +1,26 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public class PickableSpell : PickableObject
 {
-    [SerializeField] private SpellBase spell;
+    public readonly NetworkVariable<SpellVariant> spellVariant = new(writePerm: NetworkVariableWritePermission.Server);
+    public SpellBase spell { get; private set; }
     [SerializeField] private Transform display;
     private const float DISPLAY_SPEED = 90f;
 
-    protected override void Awake()
+    public override void OnNetworkSpawn()
     {
-        var appearance = Instantiate(spell.gameObject, display);
+        Init();
+    }
+
+    public override void Init()
+    {
+        print("On value changed.");
+        Transform appearance = display.GetChild((int)spellVariant.Value);
+        appearance.gameObject.SetActive(true);
         targetRenderer = appearance.GetComponent<MeshRenderer>();
-        base.Awake();
+        spell = appearance.GetComponent<SpellBase>();
+        base.Init();
     }
 
     private void Update()

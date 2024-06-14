@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum SpellVariant
+{
+    Incendio,
+    Blizzard,
+    Pilipala,
+}
+
 public abstract class SpellBase : MonoBehaviour
 {
     public string spellName => _spellName;

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using Unity.Netcode;
 using System.Collections.Generic;
-using Sun_Temple;
+using System;
 
 public class GameLogic : NetworkBehaviour
 {
@@ -28,7 +28,10 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private GameObject origCardPreviewCell;
     [SerializeField] private RectTransform cardPreviewContent;
     private List<GameObject> cardPreviewCells;
-    [SerializeField] private SpellBase testspell;
+    [Header("Spell Spawn")]
+    [SerializeField] private NetworkObject pickableSpellPrefab;
+    [SerializeField] private float minSpellIntensity;
+    [SerializeField] private float maxSpellIntensity;
 
     public override void OnNetworkSpawn()
     {
@@ -51,6 +54,8 @@ public class GameLogic : NetworkBehaviour
 
         UiDepth = 0;
         SetCursorLock(true);
+
+        if (IsServer) ServerSideInit();
     }
 
     // private void OnGUI()
@@ -78,6 +83,7 @@ public class GameLogic : NetworkBehaviour
             SetChatActive(false);
             SetBackpackActive(false);
         }
+
     }
 
     public void SetChatActive(bool value)
@@ -112,7 +118,7 @@ public class GameLogic : NetworkBehaviour
 
     public void SwitchCursorLock()
     {
-        print($"Set Cursor Lock State to {Cursor.lockState == CursorLockMode.None}");
+        // print($"Set Cursor Lock State to {Cursor.lockState == CursorLockMode.None}");
         SetCursorLock(Cursor.lockState == CursorLockMode.None);
     }
 
@@ -131,6 +137,28 @@ public class GameLogic : NetworkBehaviour
     public Transform GetSpawnPoint()
     {
         return GameObject.FindWithTag("SpawnPoint").transform;
+    }
+
+    private void ServerSideInit()
+    {
+        // Init pickable spells
+        var spawnPoints = GameObject.FindGameObjectsWithTag("SpellSpawnPoint");
+        int minRequirement = (int)(spawnPoints.Length * minSpellIntensity);
+        int maxRequirement = (int)(spawnPoints.Length * maxSpellIntensity);
+        foreach (var spawnPoint in spawnPoints)
+        {
+            if (maxRequirement <= 0) break;
+            if (minRequirement <= 0 && UnityEngine.Random.value < 0.5f) continue;
+            minRequirement--;
+            maxRequirement--;
+
+            var clone = Instantiate(pickableSpellPrefab);
+            clone.transform.position = spawnPoint.transform.position;
+            var pickableSpell = clone.GetComponent<PickableSpell>();
+            var spellVariant = UnityEngine.Random.Range(0, Enum.GetValues(typeof(SpellVariant)).Length);
+            pickableSpell.spellVariant.Value = (SpellVariant)spellVariant;
+            clone.Spawn();
+        }
     }
 
     private void OnSendClick()
