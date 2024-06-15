@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Net;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class LobbyLogic : NetworkBehaviour
     [SerializeField] private Toggle lightToggle;
     [SerializeField] private Toggle darkToggle;
     [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private TMP_Text ipText;
 
     private Dictionary<ulong, PlayerListCell> cells;
     private Dictionary<ulong, PlayerInfo> playerInfos;
@@ -61,6 +63,8 @@ public class LobbyLogic : NetworkBehaviour
             name = "Player " + NetworkManager.LocalClientId.ToString(),
         };
         AddPlayer(playerInfo);
+
+        if (IsHost) ipText.text = "Join Code: " + GameManager.instance.joinCode;
     }
 
     public void AddPlayer(PlayerInfo playerInfo)

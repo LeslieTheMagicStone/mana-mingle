@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using WarriorAnimsFREE;
 
 public class PlayerLogic : NetworkBehaviour
 {
@@ -7,6 +8,7 @@ public class PlayerLogic : NetworkBehaviour
     private Vector3 velocity;
     private float verticalRotation = 0;
     private AudioSource audioSource;
+    private Damageable damageable;
     private const float SPEED = 2f;
     private const float SENSITIVITY_X = 2.0f;
     private const float SENSITIVITY_Y = 2.0f;
@@ -18,11 +20,25 @@ public class PlayerLogic : NetworkBehaviour
         if (!IsOwner) enabled = false;
 
         audioSource = GetComponent<AudioSource>();
+        damageable = GetComponent<Damageable>();
+        damageable.onDeath.AddListener(OnDeath);
     }
 
     public void Cast(SpellVariant spellVariant)
     {
         CastServerRpc(NetworkManager.LocalClientId, spellVariant);
+    }
+
+    private void OnDeath()
+    {
+        GetComponent<Animator>().SetTrigger("Death");
+        GetComponent<WarriorInputController>().enabled = false;
+        GetComponent<WarriorMovementController>().enabled = false;
+        GetComponent<WarriorController>().enabled = false;
+        GetComponent<SuperCharacterController>().enabled = false;
+        GetComponent<AnimatorParentMove>().enabled = false;
+        GetComponent<WarriorTiming>().enabled = false;
+        GetComponent<PickerLogic>().enabled = false;
     }
 
     [ServerRpc]
