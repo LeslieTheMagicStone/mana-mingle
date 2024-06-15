@@ -26,7 +26,7 @@ public class PickerLogic : MonoBehaviour
     private void Update()
     {
         UpdatePickables();
-        if (Input.GetButtonDown("Pick"))
+        if (Input.GetButtonDown("Interact"))
         {
             if (currentHighlighted != null)
                 currentHighlighted.OnPick(this);
