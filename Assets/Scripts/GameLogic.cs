@@ -32,7 +32,7 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private NetworkObject pickableSpellPrefab;
     [SerializeField] private float minSpellIntensity;
     [SerializeField] private float maxSpellIntensity;
-
+    
     public override void OnNetworkSpawn()
     {
         instance = this;

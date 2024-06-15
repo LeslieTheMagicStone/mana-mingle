@@ -88,6 +88,8 @@ public class PlayerInit : NetworkBehaviour
             mapCam.transform.SetParent(body);
             Vector3 xzZero = new(0, mapCam.transform.localPosition.y, 0);
             mapCam.transform.localPosition = xzZero;
+            var mapPoint = body.Find("MapPoint");
+            mapPoint.gameObject.SetActive(true);
         }
     }
 }
