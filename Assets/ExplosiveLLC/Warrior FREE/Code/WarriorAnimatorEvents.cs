@@ -3,11 +3,8 @@ using UnityEngine.Events;
 
 namespace WarriorAnimsFREE
 {
-    public class WarriorCharacterAnimatorEvents:MonoBehaviour
-    {
-		/// <summary>
-		/// Placeholder functions for Animation events.
-		/// </summary>
+	public class WarriorCharacterAnimatorEvents : MonoBehaviour
+	{
 		public UnityEvent OnHit = new UnityEvent();
 		public UnityEvent OnFootR = new UnityEvent();
 		public UnityEvent OnFootL = new UnityEvent();
@@ -16,6 +13,12 @@ namespace WarriorAnimsFREE
 		public UnityEvent OnWeaponSwitch = new UnityEvent();
 
 		[HideInInspector] public WarriorController warriorController;
+		private WarriorMovementController movementController;
+
+		private void Start()
+		{
+			movementController = GetComponent<WarriorMovementController>();
+		}
 
 		public void Hit()
 		{
@@ -25,11 +28,13 @@ namespace WarriorAnimsFREE
 		public void FootR()
 		{
 			OnFootR.Invoke();
+			movementController?.PlayFootStepSound(1); // Right foot
 		}
 
 		public void FootL()
 		{
 			OnFootL.Invoke();
+			movementController?.PlayFootStepSound(0); // Left foot
 		}
 
 		public void Land()

@@ -6,17 +6,15 @@ namespace WarriorAnimsFREE
 {
 	public class WarriorMovementController : SuperStateMachine
 	{
-		[SerializeField]
-		List<AudioClip> m_runEarthSounds = new List<AudioClip>();
-
-		[SerializeField]
-		List<AudioClip> m_runGrassSounds = new List<AudioClip>();
-
-		[SerializeField]
-		List<AudioClip> m_runPuddleSounds = new List<AudioClip>();
 
 		[SerializeField]
 		List<AudioClip> m_runStoneSounds = new List<AudioClip>();
+
+		[SerializeField]
+		Transform m_leftFoot;
+
+		[SerializeField]
+		Transform m_rightFoot;
 		[Header("Components")]
 		private WarriorController warriorController;
 
@@ -48,35 +46,9 @@ namespace WarriorAnimsFREE
 			currentState = WarriorState.Idle;
 		}
 
-		void RayCastTerrain(Vector3 position)
+		public void PlayFootStepSound(int footIndex)
 		{
-			LayerMask layerMask = LayerMask.GetMask("Terrain");
-			Ray ray = new Ray(position, Vector3.down);
-			RaycastHit hit;
-
-			if (Physics.Raycast(ray, out hit, layerMask))
-			{
-				string hitTag = hit.collider.gameObject.tag;
-				if (hitTag == "Earth")
-				{
-					PlayRandomSound(m_runEarthSounds);
-				}
-				else if (hitTag == "Grass")
-				{
-					PlayRandomSound(m_runGrassSounds);
-				}
-				else if (hitTag == "Puddle")
-				{
-					PlayRandomSound(m_runPuddleSounds);
-				}
-				else if (hitTag == "Stone")
-				{
-					PlayRandomSound(m_runStoneSounds);
-				}
-
-				// Debug log
-				Debug.Log("Footstep sound played on " + hitTag);
-			}
+			PlayRandomSound(m_runStoneSounds); // 直接播放音效，无需检测地形类型
 		}
 
 		void PlayRandomSound(List<AudioClip> audioClips)
