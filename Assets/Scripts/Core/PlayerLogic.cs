@@ -3,10 +3,10 @@ using Unity.Netcode;
 
 public class PlayerLogic : NetworkBehaviour
 {
-    [SerializeField] private Damager bulletPrefab;
     private Vector3 direction;
     private Vector3 velocity;
     private float verticalRotation = 0;
+    private AudioSource audioSource;
     private const float SPEED = 2f;
     private const float SENSITIVITY_X = 2.0f;
     private const float SENSITIVITY_Y = 2.0f;
@@ -16,30 +16,57 @@ public class PlayerLogic : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) enabled = false;
+
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void Cast(SpellVariant spellVariant)
+    {
+        CastServerRpc(NetworkManager.LocalClientId, spellVariant);
+    }
+
+    [ServerRpc]
+    private void CastServerRpc(ulong shooter, SpellVariant spellVariant)
+    {
+        print("ServerRPC reached");
+        CastClientRpc(shooter, spellVariant);
+    }
+
+    [ClientRpc]
+    private void CastClientRpc(ulong shooter, SpellVariant spellVariant)
+    {
+        print("ClientRPC reached");
+        var spell = GameLogic.instance.spellLibrary[(int)spellVariant];
+        audioSource.PlayOneShot(spell.audioClip);
+        if (spell.spellType == SpellType.Stay)
+        {
+            var proj = (ProjectileSpell)spell;
+            var spawnPoint = proj.spawnPoint;
+            var pos = transform.TransformPoint(spawnPoint.localPosition);
+            var rot = transform.rotation * spawnPoint.localRotation;
+            var bullet = Instantiate(proj.projectilePrefab, pos, rot);
+            bullet.gameObject.SetActive(true);
+            bullet.transform.SetParent(transform);
+            bullet.SetOwnerId(shooter);
+        }
+        if (spell.spellType == SpellType.Shoot)
+        {
+            var proj = (ProjectileSpell)spell;
+            var spawnPoint = proj.spawnPoint;
+            var pos = transform.TransformPoint(spawnPoint.localPosition);
+            var rot = transform.rotation * spawnPoint.localRotation;
+            var bullet = Instantiate(proj.projectilePrefab, pos, rot);
+            bullet.gameObject.SetActive(true);
+            bullet.transform.SetParent(transform);
+            bullet.GetComponent<ProjectileBase>().Init(proj.projectileSpeed);
+            bullet.SetOwnerId(shooter);
+        }
     }
 
     private void Update()
     {
         // HandleMovement();
         // HandleRotation();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShootBulletServerRpc(NetworkManager.LocalClientId);
-        }
-    }
-
-    [ServerRpc]
-    private void ShootBulletServerRpc(ulong shooter)
-    {
-        ShootBulletClientRpc(shooter);
-    }
-
-    [ClientRpc]
-    private void ShootBulletClientRpc(ulong shooter)
-    {
-        var bullet = Instantiate(bulletPrefab, transform.position + transform.forward + transform.up, transform.rotation);
-        bullet.SetOwnerId(shooter);
     }
 
     private void HandleMovement()

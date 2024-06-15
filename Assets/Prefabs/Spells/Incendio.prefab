@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1572588428547821498}
   - component: {fileID: 8951106948004158814}
   - component: {fileID: 2064863562315633673}
+  - component: {fileID: 5551386202454569055}
   m_Layer: 0
   m_Name: Incendio
   m_TagString: Untagged
@@ -102,9 +103,31 @@ MonoBehaviour:
   _displayName: Incendio
   _mana: 10
   _audioClip: {fileID: 8300000, guid: 63dbe86c447c9e845998f6c9a5cc3453, type: 3}
-  projectilePrefab: {fileID: 124101146623672344}
+  _spellType: 1
+  projectilePrefab: {fileID: 5465789628610843422, guid: f353a25450f98144fbe9e1ea30b8ed29,
+    type: 3}
   spawnPoint: {fileID: 290104753953739552}
-  projectileSpeed: 2
+  projectileSpeed: 0
+--- !u!114 &5551386202454569055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124101146623672344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6448131234599262831
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 6448131234599262831}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

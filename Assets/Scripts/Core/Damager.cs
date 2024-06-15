@@ -6,6 +6,9 @@ public class Damager : MonoBehaviour
     public ulong ownerId { get; private set; }
     [SerializeField] private Side side;
     [SerializeField] private int damage;
+    [SerializeField] private bool stayDamage;
+    [SerializeField] private float damageInterval;
+    private float lastDamageTime;
 
 
     public void SetOwnerId(ulong ownerId)
@@ -16,11 +19,26 @@ public class Damager : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (stayDamage) return;
         if (other.TryGetComponent(out Damageable damageable))
         {
             if (damageable.side != side || (damageable.side == Side.Player && damageable.ownerId != ownerId))
             {
                 damageable.TakeDamage(damage);
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if(!stayDamage) return;
+        if (Time.time - lastDamageTime < damageInterval) return;
+        if (other.TryGetComponent(out Damageable damageable))
+        {
+            if (damageable.side != side || (damageable.side == Side.Player && damageable.ownerId != ownerId))
+            {
+                damageable.TakeDamage(damage);
+                lastDamageTime = Time.time;
             }
         }
     }

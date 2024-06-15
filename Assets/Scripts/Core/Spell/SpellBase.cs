@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 
 public enum SpellVariant
@@ -9,6 +10,12 @@ public enum SpellVariant
     Crucio,
 }
 
+public enum SpellType
+{
+    Shoot,
+    Stay,
+}
+
 public abstract class SpellBase : MonoBehaviour
 {
     public SpellVariant spellVariant => _spellVariant;
@@ -16,11 +23,12 @@ public abstract class SpellBase : MonoBehaviour
     public string displayName => _displayName;
     public int mana => _mana;
     public AudioClip audioClip => _audioClip;
+    public SpellType spellType => _spellType;
 
     [SerializeField] private SpellVariant _spellVariant;
     [SerializeField] private string _spellName;
     [SerializeField] private string _displayName;
     [SerializeField] private int _mana;
     [SerializeField] private AudioClip _audioClip;
-    public abstract void Cast(PlayerLogic master);
+    [SerializeField] private SpellType _spellType;
 }
