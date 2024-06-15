@@ -216,18 +216,26 @@ public class GameLogic : NetworkBehaviour
         {
             if (candidates.Count == 0)
             {
-                print("洗牌");
+                // print("洗牌");
                 candidates = deck.Where(x => x.cardStatus == CardStatus.Used).ToList();
                 foreach (var candidate in candidates)
                     candidate.cardStatus = CardStatus.Candidate;
                 candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
-                if (candidates.Count == 0) { print("卡不足"); return; }
+                if (candidates.Count == 0) { break; }
             }
             var index = UnityEngine.Random.Range(0, candidates.Count);
-            candidates[index].cardStatus = CardStatus.InHand;  
+            candidates[index].cardStatus = CardStatus.InHand;
             spellsInHandContent.GetChild(i).GetComponent<SpellPreview>().Init(candidates[index].spell.spellVariant);
             spellsInHand.Add(candidates[index]);
             candidates.RemoveAt(index);
+        }
+
+        foreach (var spellPreview in deck)
+        {
+            if (spellPreview.cardStatus == CardStatus.Candidate)
+                spellPreview.SetTransparency(1f);
+            else
+                spellPreview.SetTransparency(0.2f);
         }
     }
 
