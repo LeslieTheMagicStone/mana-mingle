@@ -64,7 +64,7 @@ public class LobbyLogic : NetworkBehaviour
         };
         AddPlayer(playerInfo);
 
-        if (IsHost) ipText.text = GameManager.instance.joinCode;
+        if (IsHost) ipText.text = "Join Code: " + GameManager.instance.joinCode;
     }
 
     public void AddPlayer(PlayerInfo playerInfo)
@@ -78,20 +78,6 @@ public class LobbyLogic : NetworkBehaviour
         cells.Add(playerInfo.id, cell);
         cell.Init(playerInfo);
         clone.SetActive(true);
-    }
-
-    private string GetLocalIpAddress()
-    {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
-        {
-            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-            {
-                ipText.text = "IP: " + ip.ToString();
-                return ip.ToString();
-            }
-        }
-        throw new System.Exception("No network adapters with an IPv4 address in the system!");
     }
 
     private void OnClientConnectedCallback(ulong clientId)

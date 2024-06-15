@@ -14,14 +14,12 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager instance => _instance;
     public bool debugMode => _debugMode;
-    public GameState gameState => _gameState;
     public Dictionary<ulong, PlayerInfo> playerInfos { get; private set; }
     public UnityEvent onStartGame;
     public string joinCode;
 
     [SerializeField] private bool _debugMode;
     private static GameManager _instance;
-    private GameState _gameState;
 
     private void Start()
     {
@@ -35,28 +33,9 @@ public class GameManager : NetworkBehaviour
         NetworkManager.OnClientStarted += AddOnLoadEventComplete;
     }
 
-    private void Update()
-    {
-
-        if (gameState == GameState.Normal)
-        {
-        }
-    }
-
     public void StartGame(Dictionary<ulong, PlayerInfo> playerInfos)
     {
         this.playerInfos = playerInfos;
-    }
-
-    public void SetGameState(GameState state)
-    {
-        if (state == GameState.Normal)
-        {
-        }
-        else if (state == GameState.GameOver)
-        {
-        }
-        _gameState = state;
     }
 
     private void AddOnLoadEventComplete()
