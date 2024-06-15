@@ -68,6 +68,8 @@ public class GameLogic : NetworkBehaviour
 
         isRolling = false;
         spellsInHand = new();
+        foreach (var spellPreview in spellsInHandContent.GetComponentsInChildren<SpellPreview>())
+            spellPreview.Refresh();
 
         if (IsServer) ServerSideInit();
     }
@@ -98,17 +100,17 @@ public class GameLogic : NetworkBehaviour
             SetBackpackActive(false);
         }
 
-        if (Input.GetKeyDown("r"))
+        if (Input.GetButtonDown("Roll"))
         {
             Roll();
         }
 
-        if (Input.GetKeyDown("p"))
+        for (int i = 0; i < maxSpellsInHand; i++)
         {
-            foreach (var pre in deck)
-            {
-                print(pre.cardStatus.ToString());
-            }
+            if (!Input.GetButtonDown("Fire" + (i + 1).ToString())) continue;
+            if (spellsInHand.Count <= i) continue;
+            var variant = spellsInHand[i].spell.spellVariant;
+            localPlayer.GetComponent<PlayerLogic>().Cast(variant);
         }
     }
 

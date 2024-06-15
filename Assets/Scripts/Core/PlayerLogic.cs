@@ -3,7 +3,6 @@ using Unity.Netcode;
 
 public class PlayerLogic : NetworkBehaviour
 {
-    [SerializeField] private Damager bulletPrefab;
     private Vector3 direction;
     private Vector3 velocity;
     private float verticalRotation = 0;
@@ -18,28 +17,39 @@ public class PlayerLogic : NetworkBehaviour
         if (!IsOwner) enabled = false;
     }
 
+    public void Cast(SpellVariant spellVariant)
+    {
+        CastServerRpc(NetworkManager.LocalClientId, spellVariant);
+    }
+
+    [ServerRpc]
+    private void CastServerRpc(ulong shooter, SpellVariant spellVariant)
+    {
+        print("ServerRPC reached");
+        CastClientRpc(shooter, spellVariant);
+    }
+
+    [ClientRpc]
+    private void CastClientRpc(ulong shooter, SpellVariant spellVariant)
+    {
+        print("ClientRPC reached");
+        var spell = GameLogic.instance.spellLibrary[(int)spellVariant];
+        if (spell.spellType == SpellType.Projectile)
+        {
+            var proj = (ProjectileSpell)spell;
+            var spawnPoint = proj.spawnPoint;
+            var pos = transform.TransformPoint(spawnPoint.localPosition);
+            var rot = transform.rotation * spawnPoint.localRotation;
+            var bullet = Instantiate(proj.projectilePrefab, pos, rot);
+            bullet.gameObject.SetActive(true);
+            bullet.SetOwnerId(shooter);
+        }
+    }
+
     private void Update()
     {
         // HandleMovement();
         // HandleRotation();
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShootBulletServerRpc(NetworkManager.LocalClientId);
-        }
-    }
-
-    [ServerRpc]
-    private void ShootBulletServerRpc(ulong shooter)
-    {
-        ShootBulletClientRpc(shooter);
-    }
-
-    [ClientRpc]
-    private void ShootBulletClientRpc(ulong shooter)
-    {
-        var bullet = Instantiate(bulletPrefab, transform.position + transform.forward + transform.up, transform.rotation);
-        bullet.SetOwnerId(shooter);
     }
 
     private void HandleMovement()
