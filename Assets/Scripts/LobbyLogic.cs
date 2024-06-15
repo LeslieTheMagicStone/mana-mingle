@@ -64,7 +64,7 @@ public class LobbyLogic : NetworkBehaviour
         };
         AddPlayer(playerInfo);
 
-        GetLocalIpAddress();
+        if (IsHost) ipText.text = GameManager.instance.joinCode;
     }
 
     public void AddPlayer(PlayerInfo playerInfo)

@@ -17,6 +17,7 @@ public class GameManager : NetworkBehaviour
     public GameState gameState => _gameState;
     public Dictionary<ulong, PlayerInfo> playerInfos { get; private set; }
     public UnityEvent onStartGame;
+    public string joinCode;
 
     [SerializeField] private bool _debugMode;
     private static GameManager _instance;
