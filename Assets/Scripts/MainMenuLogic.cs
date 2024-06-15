@@ -41,12 +41,6 @@ public class MainMenuLogic : MonoBehaviour
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
     }
 
-    private void SetTransformData()
-    {
-        var transport = NetworkManager.Singleton.NetworkConfig.NetworkTransport as UnityTransport;
-        transport.SetConnectionData(ip.text, 7777);
-    }
-
     private async void OnJoinClick()
     {
         buttons.SetActive(false);
