@@ -97,10 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f35a119b4971da14d81e244445536df9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spellVariant: 0
+  _spellVariant: 1
   _spellName: Blizzard
   _displayName: Blizzard
   _mana: 10
+  _audioClip: {fileID: 8300000, guid: db443110b75add841be91a0c1b4477a5, type: 3}
   projectilePrefab: {fileID: 3808663289074411228}
   spawnPoint: {fileID: 6765933803018504566}
   projectileSpeed: 1
