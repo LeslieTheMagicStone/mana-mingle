@@ -5,14 +5,15 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using DG.Tweening;
 
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic instance { get; private set; }
     public GameObject localPlayer { get; private set; }
     [SerializeField] private Transform overlayCanvas;
-    public List<SpellBase> spellLibrary => _spellLibrary;
-    [SerializeField] private List<SpellBase> _spellLibrary;
+    public List<SpellBase> spellLibrary => _spellLibrary.spells;
+    [SerializeField] private SpellLibrary _spellLibrary;
     private int UiDepth;
     private int isCursorLocked;
 
@@ -39,6 +40,9 @@ public class GameLogic : NetworkBehaviour
     [Header("Spells in Hand")]
     [SerializeField] private Transform spellsInHandContent;
     private int maxSpellsInHand => spellsInHandContent.childCount;
+    private bool isRolling;
+    private Sequence rollSeq;
+    private List<SpellPreview> spellsInHand;
 
     public override void OnNetworkSpawn()
     {
@@ -53,14 +57,17 @@ public class GameLogic : NetworkBehaviour
         localPlayer = NetworkManager.LocalClient.PlayerObject.transform.GetChild((int)playerInfo.variant).gameObject;
         var damageable = localPlayer.GetComponent<Damageable>();
         damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
-        print((int)playerInfo.variant);
-        print(models.GetChild((int)playerInfo.variant).gameObject.name);
+        // print((int)playerInfo.variant);
+        // print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
 
         deck = new();
 
         UiDepth = 0;
         SetCursorLock(true);
+
+        isRolling = false;
+        spellsInHand = new();
 
         if (IsServer) ServerSideInit();
     }
@@ -94,6 +101,14 @@ public class GameLogic : NetworkBehaviour
         if (Input.GetKeyDown("r"))
         {
             Roll();
+        }
+
+        if (Input.GetKeyDown("p"))
+        {
+            foreach (var pre in deck)
+            {
+                print(pre.cardStatus.ToString());
+            }
         }
     }
 
@@ -171,26 +186,49 @@ public class GameLogic : NetworkBehaviour
 
     private void Roll()
     {
-        deck[0].cardStatus = CardStatus.InHand;
-        spellsInHandContent.GetChild(0).GetComponent<SpellPreview>().Init(deck[0].spell.spellVariant);
-        // var candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
-        // for (int i = 0; i < maxSpellsInHand; i++)
-        // {
-        //     if (candidates.Count == 0)
-        //     {
-        //         if (deck.Count <= maxSpellsInHand) { print("卡不足"); break; };
+        if (isRolling) return;
+        rollSeq?.Kill();
+        rollSeq = DOTween.Sequence();
+        isRolling = true;
+        var origPos = spellsInHandContent.transform.localPosition.y;
+        rollSeq.Append(spellsInHandContent.transform.DOLocalMoveY(origPos - 150f, 0.5f));
+        rollSeq.AppendCallback(RollLogic);
+        rollSeq.AppendInterval(0.5f);
+        rollSeq.Append(spellsInHandContent.transform.DOLocalMoveY(origPos, 0.5f));
+        rollSeq.AppendCallback(() => isRolling = false);
+    }
 
-        //         print("洗牌");
-        //         candidates = deck.Where(x => x.cardStatus == CardStatus.Used).ToList();
-        //         foreach (var candidate in candidates)
-        //             candidate.cardStatus = CardStatus.Candidate;
-        //         candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
-        //     }
-        //     var index = UnityEngine.Random.Range(0, candidates.Count);
-        //     candidates[index].cardStatus = CardStatus.InHand;
-        //     spellsInHandContent.GetChild(i).GetComponent<SpellPreview>().Init(candidates[index]);
-        //     candidates.RemoveAt(index);
-        // }
+    private void RollLogic()
+    {
+        foreach (var preview in spellsInHandContent.GetComponentsInChildren<SpellPreview>())
+            preview.Refresh();
+
+        foreach (var spellPreview in spellsInHand)
+        {
+            if (spellPreview.cardStatus == CardStatus.InHand)
+                spellPreview.cardStatus = CardStatus.Used;
+        }
+        spellsInHand = new();
+
+
+        var candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
+        for (int i = 0; i < maxSpellsInHand; i++)
+        {
+            if (candidates.Count == 0)
+            {
+                print("洗牌");
+                candidates = deck.Where(x => x.cardStatus == CardStatus.Used).ToList();
+                foreach (var candidate in candidates)
+                    candidate.cardStatus = CardStatus.Candidate;
+                candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
+                if (candidates.Count == 0) { print("卡不足"); return; }
+            }
+            var index = UnityEngine.Random.Range(0, candidates.Count);
+            candidates[index].cardStatus = CardStatus.InHand;  
+            spellsInHandContent.GetChild(i).GetComponent<SpellPreview>().Init(candidates[index].spell.spellVariant);
+            spellsInHand.Add(candidates[index]);
+            candidates.RemoveAt(index);
+        }
     }
 
     private void OnSendClick()

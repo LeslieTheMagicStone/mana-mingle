@@ -42,7 +42,7 @@ namespace SunTemple
 				return;
 			}
 
-			Player = GameObject.FindGameObjectWithTag (playerTag);
+			Player = GameLogic.instance.localPlayer;
 
 			if (!Player) {
 				Debug.LogWarning (this.GetType ().Name + ".cs on " + this.name + ", No object tagged with " + playerTag + " found in Scene", gameObject);
@@ -122,9 +122,6 @@ namespace SunTemple
 			}
 		}
 
-
-
-
         public void Activate()
         {
             if (DoorClosed)
@@ -132,12 +129,6 @@ namespace SunTemple
             else
                 Close();
         }
-
-
-
-       
-
-
 
         void Rotate()
         {

@@ -15,4 +15,11 @@ public class SpellPreview : MonoBehaviour
             = spell.GetComponent<MeshRenderer>().sharedMaterial;
         cardStatus = CardStatus.Candidate;
     }
+    public void Refresh()
+    {
+        spell = null;
+        transform.GetChild(0).GetComponent<MeshFilter>().mesh = null;
+        transform.GetChild(0).GetComponent<MeshRenderer>().material = null;
+        cardStatus = CardStatus.Candidate;
+    }
 }

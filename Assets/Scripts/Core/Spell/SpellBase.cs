@@ -7,7 +7,6 @@ public enum SpellVariant
     Pilipala,
     AvadaKedavra,
     Crucio,
-    Protego
 }
 
 public abstract class SpellBase : MonoBehaviour

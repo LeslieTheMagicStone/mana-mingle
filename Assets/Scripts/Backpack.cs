@@ -11,7 +11,7 @@ public class Backpack : NetworkBehaviour
 
     public void AddSpell(SpellBase spell)
     {
-        print("Adding spell" + spell.displayName + " to backpack.");
+        // print("Adding spell" + spell.displayName + " to backpack.");
         GameLogic.instance.AddSpellPreview(spell.spellVariant);
     }
 }
