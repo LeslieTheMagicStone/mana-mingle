@@ -1,9 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace WarriorAnimsFREE
 {
 	public class WarriorMovementController : SuperStateMachine
 	{
+		[SerializeField]
+		List<AudioClip> m_runEarthSounds = new List<AudioClip>();
+
+		[SerializeField]
+		List<AudioClip> m_runGrassSounds = new List<AudioClip>();
+
+		[SerializeField]
+		List<AudioClip> m_runPuddleSounds = new List<AudioClip>();
+
+		[SerializeField]
+		List<AudioClip> m_runStoneSounds = new List<AudioClip>();
 		[Header("Components")]
 		private WarriorController warriorController;
 
@@ -24,13 +37,58 @@ namespace WarriorAnimsFREE
 
 		private const float MOUSE_SENSITIVITY_X = 0.5f;
 		private const float MOUSE_SENSITIVITY_Y = 0.2f;
+		AudioSource m_audioSource;
 
 		private void Start()
 		{
 			warriorController = GetComponent<WarriorController>();
+			m_audioSource = GetComponent<AudioSource>();
 
 			// Set currentState to idle on startup.
 			currentState = WarriorState.Idle;
+		}
+
+		void RayCastTerrain(Vector3 position)
+		{
+			LayerMask layerMask = LayerMask.GetMask("Terrain");
+			Ray ray = new Ray(position, Vector3.down);
+			RaycastHit hit;
+
+			if (Physics.Raycast(ray, out hit, layerMask))
+			{
+				string hitTag = hit.collider.gameObject.tag;
+				if (hitTag == "Earth")
+				{
+					PlayRandomSound(m_runEarthSounds);
+				}
+				else if (hitTag == "Grass")
+				{
+					PlayRandomSound(m_runGrassSounds);
+				}
+				else if (hitTag == "Puddle")
+				{
+					PlayRandomSound(m_runPuddleSounds);
+				}
+				else if (hitTag == "Stone")
+				{
+					PlayRandomSound(m_runStoneSounds);
+				}
+
+				// Debug log
+				Debug.Log("Footstep sound played on " + hitTag);
+			}
+		}
+
+		void PlayRandomSound(List<AudioClip> audioClips)
+		{
+			int soundIndex = Random.Range(0, audioClips.Count);
+			if (m_audioSource && audioClips.Count > soundIndex)
+			{
+				m_audioSource.PlayOneShot(audioClips[soundIndex]);
+
+				// Debug log
+				Debug.Log("Playing sound: " + audioClips[soundIndex].name);
+			}
 		}
 
 		#region Updates
