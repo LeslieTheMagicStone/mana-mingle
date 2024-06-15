@@ -24,15 +24,15 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private Slider manaBar;
     [SerializeField] private Transform models;
     [Header("Card Shower")]
-    [SerializeField] private GameObject cardPreviewPanel;
-    [SerializeField] private GameObject origCardPreviewCell;
-    [SerializeField] private RectTransform cardPreviewContent;
-    private List<GameObject> cardPreviewCells;
+    [SerializeField] private GameObject spellPreviewCanvas;
+    [SerializeField] private SpellPreview origSpellPreview;
+    [SerializeField] private RectTransform spellPreviewContent;
+    private List<SpellPreview> spellPreviews;
     [Header("Spell Spawn")]
     [SerializeField] private NetworkObject pickableSpellPrefab;
     [SerializeField] private float minSpellIntensity;
     [SerializeField] private float maxSpellIntensity;
-    
+
     public override void OnNetworkSpawn()
     {
         instance = this;
@@ -50,7 +50,7 @@ public class GameLogic : NetworkBehaviour
         print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
 
-        cardPreviewCells = new();
+        spellPreviews = new();
 
         UiDepth = 0;
         SetCursorLock(true);
@@ -84,6 +84,12 @@ public class GameLogic : NetworkBehaviour
             SetBackpackActive(false);
         }
 
+        if (Input.GetKeyDown("b"))
+        {
+            var spells = localPlayer.GetComponent<Backpack>().spells;
+            foreach (var spell in spells) { print(spell.displayName); }
+        }
+
     }
 
     public void SetChatActive(bool value)
@@ -95,8 +101,8 @@ public class GameLogic : NetworkBehaviour
 
     public void SetBackpackActive(bool value)
     {
-        if (cardPreviewPanel.activeSelf == value) return;
-        cardPreviewPanel.SetActive(value);
+        if (spellPreviewCanvas.activeSelf == value) return;
+        spellPreviewCanvas.SetActive(value);
         overlayCanvas.gameObject.SetActive(!value);
         SetCursorLock(!value);
         UiDepth += value ? 1 : -1;
@@ -124,14 +130,11 @@ public class GameLogic : NetworkBehaviour
 
     public void AddSpellPreview(SpellBase spell)
     {
-        var card = Instantiate(origCardPreviewCell);
-        card.transform.SetParent(cardPreviewContent, false);
-        card.GetComponentInChildren<MeshFilter>().mesh =
-            spell.GetComponent<MeshFilter>().sharedMesh;
-        card.GetComponentInChildren<MeshRenderer>().material =
-            spell.GetComponent<MeshRenderer>().sharedMaterial;
-        card.SetActive(true);
-        cardPreviewCells.Add(card);
+        var spellPreview = Instantiate(origSpellPreview);
+        spellPreview.transform.SetParent(spellPreviewContent, false);
+        spellPreview.Init(spell);
+        spellPreview.gameObject.SetActive(true);
+        spellPreviews.Add(spellPreview);
     }
 
     public Transform GetSpawnPoint()

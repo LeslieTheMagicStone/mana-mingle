@@ -15,7 +15,7 @@ public class PickableSpell : PickableObject
 
     public override void Init()
     {
-        print("On value changed.");
+        // print("On value changed.");
         Transform appearance = display.GetChild((int)spellVariant.Value);
         appearance.gameObject.SetActive(true);
         targetRenderer = appearance.GetComponent<MeshRenderer>();

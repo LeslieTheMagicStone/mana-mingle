@@ -11,7 +11,7 @@ public class SpellSelector : MonoBehaviour
     [SerializeField] private SpellPreview origSpellPreview;
     public List<SpellPreview> cards;
     private Vector3[] stopPositions;
-    const float ANIM_TIME = 1f;
+    const float ANIM_TIME = 0.3f;
     private List<Sequence> sequences;
 
     private void Awake()
@@ -22,6 +22,18 @@ public class SpellSelector : MonoBehaviour
         sequences = new();
     }
 
+    public void RollSpell(){
+
+    }
+
+    public void PeekSpells(){
+
+    }
+
+    public void HideSpells(){
+
+    }
+
     public void AddSpellPreview(SpellBase spell)
     {
         var spellPreview = Instantiate(origSpellPreview);
@@ -29,52 +41,5 @@ public class SpellSelector : MonoBehaviour
         spellPreview.transform.SetParent(canvas, false);
         spellPreview.gameObject.SetActive(true);
         cards.Add(spellPreview);
-    }
-
-    public void StartSelecting()
-    {
-        KillSequences();
-        float delayBetweenCards = ANIM_TIME / cards.Count;
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            var sequence = DOTween.Sequence();
-            sequence.Append(cards[i].transform.DOPath(stopPositions, ANIM_TIME, PathType.Linear).SetEase(Ease.Linear));
-            sequence.SetDelay(delayBetweenCards * i);
-            sequence.SetLoops(-1, LoopType.Restart);
-
-            sequences.Add(sequence);
-        }
-    }
-
-    public SpellBase Select()
-    {
-        SpellPreview closestSpell = null;
-        float minDis = 0;
-
-        for (int i = 0; i < cards.Count; i++)
-        {
-            float dis = Vector3.Distance(selectPoint.position, cards[i].transform.position);
-            if (i == 0 || dis < minDis)
-            {
-                minDis = dis;
-                closestSpell = cards[i];
-            }
-        }
-
-        StopSelecting();
-
-        return closestSpell.spell;
-    }
-
-    public void StopSelecting()
-    {
-        KillSequences();
-    }
-
-    private void KillSequences()
-    {
-        foreach (var sequence in sequences) sequence.Kill();
-        sequences = new();
     }
 }

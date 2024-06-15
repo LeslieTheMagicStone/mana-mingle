@@ -14,7 +14,7 @@ public class TestLogic : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("s")) spellSelector.StartSelecting();
-        if (Input.GetKeyDown("k")) print(spellSelector.Select().displayName);
+        // if (Input.GetKeyDown("s")) spellSelector.StartSelecting();
+        // if (Input.GetKeyDown("k")) print(spellSelector.Select().displayName);
     }
 }
