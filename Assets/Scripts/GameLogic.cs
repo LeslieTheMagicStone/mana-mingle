@@ -4,14 +4,18 @@ using UnityEngine.UI;
 using Unity.Netcode;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class GameLogic : NetworkBehaviour
 {
     public static GameLogic instance { get; private set; }
     public GameObject localPlayer { get; private set; }
     [SerializeField] private Transform overlayCanvas;
+    public List<SpellBase> spellLibrary => _spellLibrary;
+    [SerializeField] private List<SpellBase> _spellLibrary;
     private int UiDepth;
     private int isCursorLocked;
+
     [Header("Chat")]
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
@@ -27,11 +31,14 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private GameObject spellPreviewCanvas;
     [SerializeField] private SpellPreview origSpellPreview;
     [SerializeField] private RectTransform spellPreviewContent;
-    private List<SpellPreview> spellPreviews;
+    private List<SpellPreview> deck;
     [Header("Spell Spawn")]
     [SerializeField] private NetworkObject pickableSpellPrefab;
     [SerializeField] private float minSpellIntensity;
     [SerializeField] private float maxSpellIntensity;
+    [Header("Spells in Hand")]
+    [SerializeField] private Transform spellsInHandContent;
+    private int maxSpellsInHand => spellsInHandContent.childCount;
 
     public override void OnNetworkSpawn()
     {
@@ -50,7 +57,7 @@ public class GameLogic : NetworkBehaviour
         print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
 
-        spellPreviews = new();
+        deck = new();
 
         UiDepth = 0;
         SetCursorLock(true);
@@ -84,12 +91,10 @@ public class GameLogic : NetworkBehaviour
             SetBackpackActive(false);
         }
 
-        if (Input.GetKeyDown("b"))
+        if (Input.GetKeyDown("r"))
         {
-            var spells = localPlayer.GetComponent<Backpack>().spells;
-            foreach (var spell in spells) { print(spell.displayName); }
+            Roll();
         }
-
     }
 
     public void SetChatActive(bool value)
@@ -128,13 +133,13 @@ public class GameLogic : NetworkBehaviour
         SetCursorLock(Cursor.lockState == CursorLockMode.None);
     }
 
-    public void AddSpellPreview(SpellBase spell)
+    public void AddSpellPreview(SpellVariant spellVariant)
     {
         var spellPreview = Instantiate(origSpellPreview);
         spellPreview.transform.SetParent(spellPreviewContent, false);
-        spellPreview.Init(spell);
+        spellPreview.Init(spellVariant);
         spellPreview.gameObject.SetActive(true);
-        spellPreviews.Add(spellPreview);
+        deck.Add(spellPreview);
     }
 
     public Transform GetSpawnPoint()
@@ -162,6 +167,30 @@ public class GameLogic : NetworkBehaviour
             pickableSpell.spellVariant.Value = (SpellVariant)spellVariant;
             clone.Spawn();
         }
+    }
+
+    private void Roll()
+    {
+        deck[0].cardStatus = CardStatus.InHand;
+        spellsInHandContent.GetChild(0).GetComponent<SpellPreview>().Init(deck[0].spell.spellVariant);
+        // var candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
+        // for (int i = 0; i < maxSpellsInHand; i++)
+        // {
+        //     if (candidates.Count == 0)
+        //     {
+        //         if (deck.Count <= maxSpellsInHand) { print("卡不足"); break; };
+
+        //         print("洗牌");
+        //         candidates = deck.Where(x => x.cardStatus == CardStatus.Used).ToList();
+        //         foreach (var candidate in candidates)
+        //             candidate.cardStatus = CardStatus.Candidate;
+        //         candidates = deck.Where(x => x.cardStatus == CardStatus.Candidate).ToList();
+        //     }
+        //     var index = UnityEngine.Random.Range(0, candidates.Count);
+        //     candidates[index].cardStatus = CardStatus.InHand;
+        //     spellsInHandContent.GetChild(i).GetComponent<SpellPreview>().Init(candidates[index]);
+        //     candidates.RemoveAt(index);
+        // }
     }
 
     private void OnSendClick()
