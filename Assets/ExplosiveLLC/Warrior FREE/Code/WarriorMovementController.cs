@@ -36,6 +36,7 @@ namespace WarriorAnimsFREE
 		private const float MOUSE_SENSITIVITY_X = 0.5f;
 		private const float MOUSE_SENSITIVITY_Y = 0.2f;
 		AudioSource m_audioSource;
+		private bool stepEven = true;
 
 		private void Start()
 		{
@@ -48,7 +49,9 @@ namespace WarriorAnimsFREE
 
 		public void PlayFootStepSound(int footIndex)
 		{
-			PlayRandomSound(m_runStoneSounds); // 直接播放音效，无需检测地形类型
+			stepEven = !stepEven;
+			if (stepEven)
+				PlayRandomSound(m_runStoneSounds); // 直接播放音效，无需检测地形类型
 		}
 
 		void PlayRandomSound(List<AudioClip> audioClips)
@@ -57,9 +60,6 @@ namespace WarriorAnimsFREE
 			if (m_audioSource && audioClips.Count > soundIndex)
 			{
 				m_audioSource.PlayOneShot(audioClips[soundIndex]);
-
-				// Debug log
-				Debug.Log("Playing sound: " + audioClips[soundIndex].name);
 			}
 		}
 
