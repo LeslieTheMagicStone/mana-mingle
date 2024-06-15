@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Net;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -37,6 +38,7 @@ public class LobbyLogic : NetworkBehaviour
     [SerializeField] private Toggle lightToggle;
     [SerializeField] private Toggle darkToggle;
     [SerializeField] private TMP_InputField nameInput;
+    [SerializeField] private TMP_Text ipText;
 
     private Dictionary<ulong, PlayerListCell> cells;
     private Dictionary<ulong, PlayerInfo> playerInfos;
@@ -61,6 +63,8 @@ public class LobbyLogic : NetworkBehaviour
             name = "Player " + NetworkManager.LocalClientId.ToString(),
         };
         AddPlayer(playerInfo);
+
+        GetLocalIpAddress();
     }
 
     public void AddPlayer(PlayerInfo playerInfo)
@@ -74,6 +78,20 @@ public class LobbyLogic : NetworkBehaviour
         cells.Add(playerInfo.id, cell);
         cell.Init(playerInfo);
         clone.SetActive(true);
+    }
+
+    private string GetLocalIpAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                ipText.text = "IP: " + ip.ToString();
+                return ip.ToString();
+            }
+        }
+        throw new System.Exception("No network adapters with an IPv4 address in the system!");
     }
 
     private void OnClientConnectedCallback(ulong clientId)
