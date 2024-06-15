@@ -12,7 +12,7 @@ public enum SpellVariant
 
 public enum SpellType
 {
-    Projectile,
+    Shoot,
     Stay,
 }
 
@@ -30,6 +30,5 @@ public abstract class SpellBase : MonoBehaviour
     [SerializeField] private string _displayName;
     [SerializeField] private int _mana;
     [SerializeField] private AudioClip _audioClip;
-    [SerializeField] private bool onlyBehaviour;
     [SerializeField] private SpellType _spellType;
 }

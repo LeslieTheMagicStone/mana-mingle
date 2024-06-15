@@ -103,10 +103,11 @@ MonoBehaviour:
   _displayName: Incendio
   _mana: 10
   _audioClip: {fileID: 8300000, guid: 63dbe86c447c9e845998f6c9a5cc3453, type: 3}
+  _spellType: 1
   projectilePrefab: {fileID: 5465789628610843422, guid: f353a25450f98144fbe9e1ea30b8ed29,
     type: 3}
   spawnPoint: {fileID: 290104753953739552}
-  projectileSpeed: 2
+  projectileSpeed: 0
 --- !u!114 &5551386202454569055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 6448131234599262831}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

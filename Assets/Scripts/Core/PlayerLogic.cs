@@ -6,6 +6,7 @@ public class PlayerLogic : NetworkBehaviour
     private Vector3 direction;
     private Vector3 velocity;
     private float verticalRotation = 0;
+    private AudioSource audioSource;
     private const float SPEED = 2f;
     private const float SENSITIVITY_X = 2.0f;
     private const float SENSITIVITY_Y = 2.0f;
@@ -15,6 +16,8 @@ public class PlayerLogic : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsOwner) enabled = false;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Cast(SpellVariant spellVariant)
@@ -34,7 +37,8 @@ public class PlayerLogic : NetworkBehaviour
     {
         print("ClientRPC reached");
         var spell = GameLogic.instance.spellLibrary[(int)spellVariant];
-        if (spell.spellType == SpellType.Projectile)
+        audioSource.PlayOneShot(spell.audioClip);
+        if (spell.spellType == SpellType.Stay)
         {
             var proj = (ProjectileSpell)spell;
             var spawnPoint = proj.spawnPoint;
@@ -42,6 +46,19 @@ public class PlayerLogic : NetworkBehaviour
             var rot = transform.rotation * spawnPoint.localRotation;
             var bullet = Instantiate(proj.projectilePrefab, pos, rot);
             bullet.gameObject.SetActive(true);
+            bullet.transform.SetParent(transform);
+            bullet.SetOwnerId(shooter);
+        }
+        if (spell.spellType == SpellType.Shoot)
+        {
+            var proj = (ProjectileSpell)spell;
+            var spawnPoint = proj.spawnPoint;
+            var pos = transform.TransformPoint(spawnPoint.localPosition);
+            var rot = transform.rotation * spawnPoint.localRotation;
+            var bullet = Instantiate(proj.projectilePrefab, pos, rot);
+            bullet.gameObject.SetActive(true);
+            bullet.transform.SetParent(transform);
+            bullet.GetComponent<ProjectileBase>().Init(proj.projectileSpeed);
             bullet.SetOwnerId(shooter);
         }
     }
