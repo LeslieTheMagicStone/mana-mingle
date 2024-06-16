@@ -16,7 +16,8 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private SpellLibrary _spellLibrary;
     private int UiDepth;
     private int isCursorLocked;
-
+    public TrophyController trophyController;
+    public Player[] players;
     [Header("Chat")]
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
@@ -111,6 +112,11 @@ public class GameLogic : NetworkBehaviour
             if (spellsInHand.Count <= i) continue;
             var variant = spellsInHand[i].spell.spellVariant;
             localPlayer.GetComponent<PlayerLogic>().Cast(variant);
+        }
+        if (CheckVictoryCondition(out Transform winner))
+        {
+            // 调用奖杯移动到玩家面前
+            trophyController.MoveToPlayer(winner);
         }
     }
 
@@ -272,5 +278,30 @@ public class GameLogic : NetworkBehaviour
         clone.transform.SetParent(this.chatContent, false);
         clone.AddComponent<ChatCell>().Init(playerName, content);
         clone.SetActive(true);
+    }
+
+    bool CheckVictoryCondition(out Transform winner)
+    {
+        winner = null;
+        Player[] players = FindObjectsOfType<Player>();
+        int aliveCount = 0;
+        Transform lastAlivePlayer = null;
+
+        foreach (var player in players)
+        {
+            if (player.isAlive)
+            {
+                aliveCount++;
+                lastAlivePlayer = player.transform;
+            }
+        }
+
+        if (aliveCount == 1)
+        {
+            winner = lastAlivePlayer;
+            return true;
+        }
+
+        return false;
     }
 }
