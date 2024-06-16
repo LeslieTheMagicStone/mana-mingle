@@ -39,6 +39,7 @@ public class LobbyLogic : NetworkBehaviour
     [SerializeField] private Toggle darkToggle;
     [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private TMP_Text ipText;
+    [SerializeField] private GameObject loading;
 
     private Dictionary<ulong, PlayerListCell> cells;
     private Dictionary<ulong, PlayerInfo> playerInfos;
@@ -95,6 +96,7 @@ public class LobbyLogic : NetworkBehaviour
 
     private void OnStartClick()
     {
+        HandleLoadingCanvas();
         UploadPlayerInfosClientRpc();
         SceneController.instance.LoadScene(Scenes.GameScene);
     }
@@ -147,7 +149,19 @@ public class LobbyLogic : NetworkBehaviour
 
 
     [ClientRpc]
-    private void UploadPlayerInfosClientRpc() { GameManager.instance.StartGame(playerInfos); }
+    private void UploadPlayerInfosClientRpc()
+    {
+        if (!IsHost) HandleLoadingCanvas();
+        GameManager.instance.StartGame(playerInfos);
+    }
+
+    private void HandleLoadingCanvas()
+    {
+        readyToggle.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+        loading.SetActive(true);
+    }
+
 
     private void UpdatePlayerInfo(ulong id, bool isReady)
     {

@@ -3,7 +3,7 @@
 <Localization>
   <Entry>
     <Key>Title</Key>
-    <Value>我不到啊</Value>
+    <Value>魔法交织</Value>
   </Entry>
   <Entry>
     <Key>Start</Key>
@@ -16,10 +16,6 @@
   <Entry>
     <Key>Options</Key>
     <Key>设置</Key>
-  </Entry>
-  <Entry>
-    <Key>Language</Key>
-    <Key>语言</Key>
   </Entry>
   <Entry>
     <Key>Paused</Key>
@@ -88,5 +84,29 @@
   <Entry>
     <Key>Send</Key>
     <Key>发送</Key>
+  </Entry>
+  <Entry>
+    <Key>Death</Key>
+    <Key>败北</Key>
+  </Entry>
+  <Entry>
+    <Key>Watch</Key>
+    <Key>观战</Key>
+  </Entry>
+  <Entry>
+    <Key>Prev</Key>
+    <Key>上一个</Key>
+  </Entry>
+  <Entry>
+    <Key>Next</Key>
+    <Key>下一个</Key>
+  </Entry>
+  <Entry>
+    <Key>Loading</Key>
+    <Key>加载中...</Key>
+  </Entry>
+  <Entry>
+    <Key>Language</Key>
+    <Key>语言：中文</Key>
   </Entry>
 </Localization>

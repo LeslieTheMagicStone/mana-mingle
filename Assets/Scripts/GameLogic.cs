@@ -16,8 +16,8 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private SpellLibrary _spellLibrary;
     private int UiDepth;
     private int isCursorLocked;
-    public TrophyController trophyController;
-    public Player[] players;
+    public List<Damageable> players = new(); // Added in PlayerInit
+    private TrophyController trophyController => TrophyController.instance;
     [Header("Chat")]
     [SerializeField] private GameObject chat;
     [SerializeField] private TMP_InputField input;
@@ -44,6 +44,18 @@ public class GameLogic : NetworkBehaviour
     private bool isRolling;
     private Sequence rollSeq;
     private List<SpellPreview> spellsInHand;
+    [Header("Player Death")]
+    [SerializeField] private GameObject deathPanel;
+    [SerializeField] private Button quit;
+    [SerializeField] private Button watch;
+    [SerializeField] private int watchPlayerIndex = -1;
+    [SerializeField] private GameObject watchButtons;
+    [SerializeField] private Button next;
+    [SerializeField] private Button prev;
+    private Damageable watchingPlayer;
+    [Header("Player Win")]
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private Button winQuit;
 
     public override void OnNetworkSpawn()
     {
@@ -58,6 +70,8 @@ public class GameLogic : NetworkBehaviour
         localPlayer = NetworkManager.LocalClient.PlayerObject.transform.GetChild((int)playerInfo.variant).gameObject;
         var damageable = localPlayer.GetComponent<Damageable>();
         damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
+        var manaLogic = localPlayer.GetComponent<ManaLogic>();
+        manaLogic.onManaChanged.AddListener(() => manaBar.value = (float)manaLogic.mana / manaLogic.maxMana);
         // print((int)playerInfo.variant);
         // print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
@@ -71,6 +85,13 @@ public class GameLogic : NetworkBehaviour
         spellsInHand = new();
         foreach (var spellPreview in spellsInHandContent.GetComponentsInChildren<SpellPreview>())
             spellPreview.Refresh();
+
+        quit.onClick.AddListener(OnQuitClick);
+        watch.onClick.AddListener(OnWatchClick);
+        next.onClick.AddListener(OnNextClick);
+        prev.onClick.AddListener(OnPrevClick);
+
+        winQuit.onClick.AddListener(OnQuitClick);
 
         if (IsServer) ServerSideInit();
     }
@@ -113,11 +134,10 @@ public class GameLogic : NetworkBehaviour
             var variant = spellsInHand[i].spell.spellVariant;
             localPlayer.GetComponent<PlayerLogic>().Cast(variant);
         }
-        if (CheckVictoryCondition(out Transform winner))
-        {
-            // 调用奖杯移动到玩家面前
-            trophyController.MoveToPlayer(winner);
-        }
+
+        if (watchPlayerIndex == -1) return;
+        if (watchingPlayer.isDead)
+            OnNextClick();
     }
 
     public void SetChatActive(bool value)
@@ -168,6 +188,91 @@ public class GameLogic : NetworkBehaviour
     public Transform GetSpawnPoint()
     {
         return GameObject.FindWithTag("SpawnPoint").transform;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void OnPlayerDeathServerRpc()
+    {
+        GameOverClientRpc();
+    }
+
+    [ClientRpc]
+    private void GameOverClientRpc()
+    {
+        if (CheckGameOver(out Transform winner))
+        {
+            // 调用奖杯移动到玩家面前
+            trophyController.MoveToPlayer(winner);
+
+            if (winner == localPlayer.transform)
+                winPanel.SetActive(true);
+        }
+    }
+
+    public void OnPlayerDeath()
+    {
+        SetCursorLock(false);
+        overlayCanvas.gameObject.SetActive(false);
+
+        if (!CheckGameOver(out Transform winner))
+            deathPanel.SetActive(true);
+        else
+            OnWatchClick();
+
+        OnPlayerDeathServerRpc();
+    }
+
+    private bool CheckGameOver(out Transform winner)
+    {
+        var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+        if (alivePlayers.Count == 1)
+        {
+            winner = alivePlayers[0].transform;
+            return true;
+        }
+        winner = null;
+        return false;
+    }
+
+    private void OnQuitClick()
+    {
+        Application.Quit();
+    }
+
+    private void OnWatchClick()
+    {
+        deathPanel.SetActive(false);
+        var alivePlayers = players.Where(x => !x.isDead).ToList();
+        if (alivePlayers.Count == 0) { Debug.LogWarning("when watch, No alive player"); return; }
+        watchButtons.SetActive(true);
+        OnNextClick();
+    }
+
+    private void OnNextClick()
+    {
+        var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+        if (alivePlayers.Count == 0) { Debug.LogWarning("when watch, No alive player"); return; }
+        watchPlayerIndex++;
+        watchPlayerIndex %= alivePlayers.Count;
+        var cameraSpawn = alivePlayers[watchPlayerIndex].transform.Find("CameraSpawn");
+        Camera.main.transform.SetParent(cameraSpawn, false);
+        Camera.main.transform.localPosition = new(0, 0, -2);
+        Camera.main.transform.localRotation = Quaternion.identity;
+        watchingPlayer = alivePlayers[watchPlayerIndex];
+    }
+
+    private void OnPrevClick()
+    {
+        var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+        if (alivePlayers.Count == 0) { Debug.LogWarning("when watch, No alive player"); return; }
+        watchPlayerIndex--;
+        watchPlayerIndex %= alivePlayers.Count;
+        if (watchPlayerIndex < 0) watchPlayerIndex += alivePlayers.Count;
+        var cameraSpawn = alivePlayers[watchPlayerIndex].transform.Find("CameraSpawn");
+        Camera.main.transform.SetParent(cameraSpawn, false);
+        Camera.main.transform.localPosition = new(0, 0, -2);
+        Camera.main.transform.localRotation = Quaternion.identity;
+        watchingPlayer = alivePlayers[watchPlayerIndex];
     }
 
     private void ServerSideInit()
@@ -278,30 +383,5 @@ public class GameLogic : NetworkBehaviour
         clone.transform.SetParent(this.chatContent, false);
         clone.AddComponent<ChatCell>().Init(playerName, content);
         clone.SetActive(true);
-    }
-
-    bool CheckVictoryCondition(out Transform winner)
-    {
-        winner = null;
-        Player[] players = FindObjectsOfType<Player>();
-        int aliveCount = 0;
-        Transform lastAlivePlayer = null;
-
-        foreach (var player in players)
-        {
-            if (player.isAlive)
-            {
-                aliveCount++;
-                lastAlivePlayer = player.transform;
-            }
-        }
-
-        if (aliveCount == 1)
-        {
-            winner = lastAlivePlayer;
-            return true;
-        }
-
-        return false;
     }
 }

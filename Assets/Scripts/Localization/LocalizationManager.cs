@@ -110,6 +110,15 @@ public class LocalizationManager : MonoBehaviour
         return "Error Loc Missing: " + key;
     }
 
+    public void NextLanguage()
+    {
+        int next = (int)language + 1;
+        if (next >= Enum.GetValues(typeof(Language)).Length)
+            next = 0;
+
+        ChangeLanguage(((Language)next).ToString());
+    }
+
     public void ChangeLanguage(string targetLanguage)
     {
         foreach (Language language in Enum.GetValues(typeof(Language)))

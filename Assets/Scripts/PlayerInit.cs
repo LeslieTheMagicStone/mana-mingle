@@ -7,6 +7,7 @@ public class PlayerInit : NetworkBehaviour
 {
     [SerializeField] private bool offlineMode;
     readonly Vector3 farAway = new(1000, 0, 0);
+    private bool hasGameStart = false;
     public override void OnNetworkSpawn()
     {
         GameManager.instance.onStartGame.AddListener(OnStartGame);
@@ -14,6 +15,7 @@ public class PlayerInit : NetworkBehaviour
         foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
         {
             Transform tr = transform.GetChild((int)variant);
+            tr.transform.position = farAway;
             // Remove control from non-owners
             if (!IsLocalPlayer)
             {
@@ -36,7 +38,6 @@ public class PlayerInit : NetworkBehaviour
                 tr.GetComponent<WarriorTiming>().enabled = false;
                 tr.GetComponent<PickerLogic>().enabled = false;
             }
-            tr.transform.position = farAway;
         }
     }
 
@@ -55,8 +56,20 @@ public class PlayerInit : NetworkBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (hasGameStart) return;
+
+        foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
+        {
+            Transform tr = transform.GetChild((int)variant);
+            tr.position = farAway;
+        }
+    }
+
     public void OnStartGame()
     {
+        hasGameStart = true;
         PlayerInfo playerInfo = GameManager.instance.playerInfos[OwnerClientId];
 
         // Not selected variant, then set active false.
@@ -70,6 +83,7 @@ public class PlayerInit : NetworkBehaviour
         Transform body = transform.GetChild((int)playerInfo.variant);
         Transform spawnPoint = GameLogic.instance.GetSpawnPoint();
         body.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+        GameLogic.instance.players.Add(body.GetComponent<Damageable>());
 
         if (IsLocalPlayer)
         {

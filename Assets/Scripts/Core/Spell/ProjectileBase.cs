@@ -3,7 +3,7 @@ using UnityEngine;
 public class ProjectileBase : MonoBehaviour
 {
     private float speed;
-    protected const float PROJECTILE_LIFETIME = 100f;
+    [SerializeField] private float lifeTime = 100f;
 
     public void Init(float speed)
     {
@@ -12,11 +12,11 @@ public class ProjectileBase : MonoBehaviour
 
     private void Awake()
     {
-        Destroy(gameObject, PROJECTILE_LIFETIME);
+        Destroy(gameObject, lifeTime);
     }
 
     private void Update()
     {
-        transform.Translate(speed * Time.deltaTime * transform.forward, Space.Self);
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 }

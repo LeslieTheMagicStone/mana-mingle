@@ -17,6 +17,7 @@ public class MainMenuLogic : MonoBehaviour
     [SerializeField] private Button join;
     [SerializeField] private Button quit;
     [SerializeField] private TMP_InputField ip;
+    [SerializeField] private Button changeLanguageButton;
 
     private UnityTransport transport;
 
@@ -25,6 +26,7 @@ public class MainMenuLogic : MonoBehaviour
         create.onClick.AddListener(OnCreateClick);
         join.onClick.AddListener(OnJoinClick);
         quit.onClick.AddListener(OnQuitClick);
+        changeLanguageButton.onClick.AddListener(() => LocalizationManager.Instance.NextLanguage());
 
         transport = FindObjectOfType<UnityTransport>();
 

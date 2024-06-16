@@ -11,6 +11,7 @@ public class Damageable : NetworkBehaviour
     public int health => _health.Value;
     public UnityEvent onHurt;
     public UnityEvent onDeath;
+    public bool isDead => health <= 0;
     [SerializeField] private Side _side;
     [SerializeField] private int _maxHealth;
     [SerializeField] private GameObject deathParticles;
@@ -51,12 +52,18 @@ public class Damageable : NetworkBehaviour
                 deathParticles.SetActive(true);
                 deathParticles.transform.SetParent(null);
             }
-            onDeath.Invoke();
+            OnDeathClientRpc();
             return;
         }
         shakeTween?.Kill();
         origPos = transform.position;
         shakeTween = transform.DOShakePosition(0.3f, 0.2f, 30).OnComplete(() => transform.position = origPos);
+    }
+
+    [ClientRpc]
+    private void OnDeathClientRpc()
+    {
+        onDeath.Invoke();
     }
 
     public override void OnNetworkDespawn()

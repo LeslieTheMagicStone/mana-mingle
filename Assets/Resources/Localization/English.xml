@@ -2,7 +2,7 @@
 <Localization>
   <Entry>
     <Key>Title</Key>
-    <Value>Who Asked?</Value>
+    <Value>Mana Mingle</Value>
   </Entry>
   <Entry>
     <Key>Start</Key>
@@ -15,10 +15,6 @@
   <Entry>
     <Key>Options</Key>
     <Key>Options</Key>
-  </Entry>
-  <Entry>
-    <Key>Language</Key>
-    <Key>Language</Key>
   </Entry>
   <Entry>
     <Key>Paused</Key>
@@ -87,5 +83,29 @@
   <Entry>
     <Key>Send</Key>
     <Key>Send</Key>
+  </Entry>
+  <Entry>
+    <Key>Death</Key>
+    <Key>Death</Key>
+  </Entry>
+  <Entry>
+    <Key>Watch</Key>
+    <Key>Watch</Key>
+  </Entry>
+  <Entry>
+    <Key>Prev</Key>
+    <Key>Prev</Key>
+  </Entry>
+  <Entry>
+    <Key>Next</Key>
+    <Key>Next</Key>
+  </Entry>
+  <Entry>
+    <Key>Loading</Key>
+    <Key>Loading...</Key>
+  </Entry>
+  <Entry>
+    <key>Language</key>
+    <key>Language: English</key>
   </Entry>
 </Localization>
