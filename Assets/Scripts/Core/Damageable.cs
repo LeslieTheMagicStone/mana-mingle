@@ -15,6 +15,7 @@ public class Damageable : NetworkBehaviour
     [SerializeField] private Side _side;
     [SerializeField] private int _maxHealth;
     [SerializeField] private GameObject deathParticles;
+    [SerializeField] private bool shake;
     public NetworkVariable<int> _health = new(writePerm: NetworkVariableWritePermission.Server);
     private Vector3 origPos;
     private Tween shakeTween;
@@ -22,7 +23,8 @@ public class Damageable : NetworkBehaviour
     private float invincibleTimer;
     const float INVINCIBLE_TIME = 0.2f;
 
-    int debugHealth = 100;
+    private int dustormCount = 0;
+    private bool isInDustStorm => dustormCount > 0;
 
     public override void OnNetworkSpawn()
     {
@@ -33,11 +35,26 @@ public class Damageable : NetworkBehaviour
     private void Update()
     {
         if (isInvincible) invincibleTimer -= Time.deltaTime;
+
+        if (isInDustStorm) TakeDamage(1);
+    }
+
+    private void FixedUpdate()
+    {
+        dustormCount = 0;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!IsServer) return;
+        if (other.CompareTag("DustStorm"))
+        {
+            dustormCount++;
+        }
     }
 
     public void TakeDamage(int damage)
     {
-        debugHealth -= damage;
         if (!IsServer) return;
 
         if (isInvincible) return;
@@ -55,9 +72,12 @@ public class Damageable : NetworkBehaviour
             OnDeathClientRpc();
             return;
         }
-        shakeTween?.Kill();
-        origPos = transform.position;
-        shakeTween = transform.DOShakePosition(0.3f, 0.2f, 30).OnComplete(() => transform.position = origPos);
+        if (shake)
+        {
+            shakeTween?.Kill();
+            origPos = transform.position;
+            shakeTween = transform.DOShakePosition(0.3f, 0.2f, 30).OnComplete(() => transform.position = origPos);
+        }
     }
 
     [ClientRpc]

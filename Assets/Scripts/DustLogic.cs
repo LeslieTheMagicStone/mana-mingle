@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 
 public class DustLogic : MonoBehaviour
@@ -7,15 +8,26 @@ public class DustLogic : MonoBehaviour
     // Start is called before the first frame update
     public int R;
     public GameObject Dust;
-    int ticks = 0;
+    float startTime;
+    public static DustLogic instance { get; private set; }
+    public float radius;
 
-    // Update is called once per frame
-    void Update()
+    private float GetRadius(float t)
     {
-        ticks++;
-        if (ticks > 600 && R > 60)
+        return 30 + 300 * Mathf.Pow(2f, -t / 30f);
+    }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    private void Start()
+    {
+        startTime = Time.time;
+
+        while (R > 60)
         {
-            ticks = 0;
             for (float i = 0; i <= 360; i += 2000 / R)
             {
                 Vector3 pos = new Vector3(R * Mathf.Cos(i), -30, R * Mathf.Sin(i));
@@ -24,5 +36,11 @@ public class DustLogic : MonoBehaviour
             }
             R -= 20;
         }
+    }
+
+    private void Update()
+    {
+        radius = GetRadius(Time.time - startTime);
+        transform.localScale = 2 * Vector3.one * radius;
     }
 }

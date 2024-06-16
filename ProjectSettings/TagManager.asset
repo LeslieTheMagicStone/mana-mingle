@@ -10,6 +10,8 @@ TagManager:
   - TempObject
   - SpellSpawnPoint
   - Stone
+  - DustStorm
+  - Circle
   layers:
   - Default
   - TransparentFX

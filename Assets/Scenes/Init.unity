@@ -177,6 +177,7 @@ MonoBehaviour:
   onStartGame:
     m_PersistentCalls:
       m_Calls: []
+  joinCode: 
   _debugMode: 0
 --- !u!4 &255343329
 Transform:
