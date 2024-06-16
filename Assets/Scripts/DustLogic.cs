@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class DustLogic : MonoBehaviour
@@ -14,7 +13,7 @@ public class DustLogic : MonoBehaviour
 
     private float GetRadius(float t)
     {
-        return 30 + 300 * Mathf.Pow(2f, -t / 30f);
+        return 30 + 300 * Mathf.Pow(2f, -t / 150f);
     }
 
     private void Awake()

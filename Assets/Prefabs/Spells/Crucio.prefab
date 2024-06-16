@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 71401409815216107}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -102,9 +102,11 @@ MonoBehaviour:
   _displayName: Crucio
   _mana: 15
   _audioClip: {fileID: 8300000, guid: f2bdba25efc560643b31e379eba16a02, type: 3}
-  projectilePrefab: {fileID: 71401409815216107}
+  _spellType: 0
+  projectilePrefab: {fileID: 7105387118241113780, guid: e92cf0173ac71a64aba445cb32cda392,
+    type: 3}
   spawnPoint: {fileID: 6004819631207180802}
-  projectileSpeed: 2
+  projectileSpeed: 8
 --- !u!1 &4992549731894835668
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,7 +132,7 @@ Transform:
   m_GameObject: {fileID: 4992549731894835668}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 1}
+  m_LocalPosition: {x: 1, y: 2, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

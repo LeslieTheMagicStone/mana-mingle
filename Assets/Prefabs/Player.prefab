@@ -1743,6 +1743,7 @@ MonoBehaviour:
   _side: 1
   _maxHealth: 100
   deathParticles: {fileID: 0}
+  shake: 0
   _health:
     m_InternalValue: 0
 --- !u!136 &4011593179014877149
@@ -4129,6 +4130,7 @@ MonoBehaviour:
   _side: 1
   _maxHealth: 100
   deathParticles: {fileID: 0}
+  shake: 0
   _health:
     m_InternalValue: 0
 --- !u!136 &1662999800517898034
