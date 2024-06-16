@@ -102,12 +102,12 @@ MonoBehaviour:
   _spellName: Blizzard
   _displayName: Blizzard
   _mana: 10
-  _audioClip: {fileID: 8300000, guid: db443110b75add841be91a0c1b4477a5, type: 3}
-  _spellType: 1
-  projectilePrefab: {fileID: 1901073446536780625, guid: 69910c65c306aae4c97f105685adb191,
+  _audioClip: {fileID: 8300000, guid: 6eef4ee30d91a6b4ba404be17fe5e0dd, type: 3}
+  _spellType: 0
+  projectilePrefab: {fileID: 8148313890095478982, guid: 163acc109b0e1604a912c18213c380fc,
     type: 3}
   spawnPoint: {fileID: 6765933803018504566}
-  projectileSpeed: 0
+  projectileSpeed: 2
 --- !u!114 &3453460966361458652
 MonoBehaviour:
   m_ObjectHideFlags: 0

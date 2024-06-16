@@ -132,7 +132,7 @@ MonoBehaviour:
   _spellName: Pilipala
   _displayName: Pilipala
   _mana: 10
-  _audioClip: {fileID: 8300000, guid: 542abf20064a71541b3a19b059f1786c, type: 3}
+  _audioClip: {fileID: 8300000, guid: f708a6c778d799049b404d335a1d2eee, type: 3}
   _spellType: 0
   projectilePrefab: {fileID: 3721352354512678719, guid: a109c74719c0c2549865c78509becd82,
     type: 3}
