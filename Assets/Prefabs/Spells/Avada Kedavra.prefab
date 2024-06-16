@@ -101,9 +101,10 @@ MonoBehaviour:
   _spellName: Avada Kedavra
   _displayName: Avada Kedavra
   _mana: 10
-  _audioClip: {fileID: 8300000, guid: b315cd1da6e06794b8015f1f4a16e002, type: 3}
+  _audioClip: {fileID: 8300000, guid: 5a0364a942d9d2e4b86d89f76de09b3a, type: 3}
+  _spellType: 0
   projectilePrefab: {fileID: 0}
-  spawnPoint: {fileID: 0}
+  spawnPoint: {fileID: 4898577889918966839}
   projectileSpeed: 2
 --- !u!1 &6716502925582500950
 GameObject:

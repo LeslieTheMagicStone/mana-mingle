@@ -73,7 +73,7 @@ public class PlayerLogic : NetworkBehaviour
             var rot = transform.rotation * spawnPoint.localRotation;
             var bullet = Instantiate(proj.projectilePrefab, pos, rot);
             bullet.gameObject.SetActive(true);
-            bullet.transform.SetParent(transform);
+            bullet.transform.SetParent(null);
             bullet.GetComponent<ProjectileBase>().Init(proj.projectileSpeed);
             bullet.SetOwnerId(shooter);
         }
