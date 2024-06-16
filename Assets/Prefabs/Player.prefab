@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 7543844054536983394}
   m_Layer: 0
   m_Name: CameraSpawn
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1481,7 +1481,6 @@ GameObject:
   - component: {fileID: 3980103652584834482}
   - component: {fileID: 5999789548100600271}
   - component: {fileID: 867324400718908239}
-  - component: {fileID: 1733475743879968606}
   m_Layer: 0
   m_Name: Light
   m_TagString: Player
@@ -1504,6 +1503,7 @@ Transform:
   m_Children:
   - {fileID: 4024067630663083465}
   - {fileID: 7543844054536983394}
+  - {fileID: 412592578937072748}
   - {fileID: 2870172847958403902}
   m_Father: {fileID: 768719744486310205}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1779,6 +1779,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7172c58382cec7449ed2afce448bf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathCamPoint: {fileID: 412592578937072748}
+  hideLocal: {fileID: 653812685292803969}
 --- !u!114 &3980103652584834482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,19 +1902,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1733475743879968606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3542528874880396980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 272fb11e3c1d9d045a13fcbb7d2382b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAlive: 1
 --- !u!1 &3591764443888315306
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,6 +2693,37 @@ Transform:
   - {fileID: 7142898661512054389}
   m_Father: {fileID: 4024067630663083465}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4779055154776211427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 412592578937072748}
+  m_Layer: 0
+  m_Name: DeathCamPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &412592578937072748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4779055154776211427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7010574, y: -0.09229599, z: 0.09229599, w: 0.7010574}
+  m_LocalPosition: {x: 0, y: 3.418, z: -1.086}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6431258547174016137}
+  m_LocalEulerAnglesHint: {x: 90, y: -15, z: 0}
 --- !u!1 &4856749963739227313
 GameObject:
   m_ObjectHideFlags: 0
@@ -4127,6 +4147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7172c58382cec7449ed2afce448bf9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathCamPoint: {fileID: 0}
+  hideLocal: {fileID: 0}
 --- !u!114 &8053273258523576361
 MonoBehaviour:
   m_ObjectHideFlags: 0

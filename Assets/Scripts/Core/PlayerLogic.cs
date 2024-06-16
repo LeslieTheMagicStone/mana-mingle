@@ -1,9 +1,12 @@
 using UnityEngine;
 using Unity.Netcode;
 using WarriorAnimsFREE;
+using DG.Tweening;
 
 public class PlayerLogic : NetworkBehaviour
 {
+    [SerializeField] private Transform deathCamPoint;
+    [SerializeField] private HideLocal hideLocal;
     private Vector3 direction;
     private Vector3 velocity;
     private float verticalRotation = 0;
@@ -17,7 +20,7 @@ public class PlayerLogic : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) enabled = false;
+        if (!IsOwner) { enabled = false; return; }
 
         audioSource = GetComponent<AudioSource>();
         damageable = GetComponent<Damageable>();
@@ -39,6 +42,12 @@ public class PlayerLogic : NetworkBehaviour
         GetComponent<AnimatorParentMove>().enabled = false;
         GetComponent<WarriorTiming>().enabled = false;
         GetComponent<PickerLogic>().enabled = false;
+
+        hideLocal.Restore();
+        Camera.main.transform.DOLocalMove(deathCamPoint.localPosition, 1f);
+        Camera.main.transform.DOLocalRotate(deathCamPoint.localRotation.eulerAngles, 1f);
+
+        GameLogic.instance.OnPlayerDeath();
     }
 
     [ServerRpc]
