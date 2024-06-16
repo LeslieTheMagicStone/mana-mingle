@@ -53,6 +53,9 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private Button next;
     [SerializeField] private Button prev;
     private Damageable watchingPlayer;
+    [Header("Player Win")]
+    [SerializeField] private GameObject winPanel;
+    [SerializeField] private Button winQuit;
 
     public override void OnNetworkSpawn()
     {
@@ -67,6 +70,8 @@ public class GameLogic : NetworkBehaviour
         localPlayer = NetworkManager.LocalClient.PlayerObject.transform.GetChild((int)playerInfo.variant).gameObject;
         var damageable = localPlayer.GetComponent<Damageable>();
         damageable._health.OnValueChanged += (prev, curr) => healthBar.value = (float)curr / damageable.maxHealth;
+        var manaLogic = localPlayer.GetComponent<ManaLogic>();
+        manaLogic.onManaChanged.AddListener(() => manaBar.value = (float)manaLogic.mana / manaLogic.maxMana);
         // print((int)playerInfo.variant);
         // print(models.GetChild((int)playerInfo.variant).gameObject.name);
         models.GetChild((int)playerInfo.variant).gameObject.SetActive(true);
@@ -85,6 +90,8 @@ public class GameLogic : NetworkBehaviour
         watch.onClick.AddListener(OnWatchClick);
         next.onClick.AddListener(OnNextClick);
         prev.onClick.AddListener(OnPrevClick);
+
+        winQuit.onClick.AddListener(OnQuitClick);
 
         if (IsServer) ServerSideInit();
     }
@@ -196,6 +203,9 @@ public class GameLogic : NetworkBehaviour
         {
             // 调用奖杯移动到玩家面前
             trophyController.MoveToPlayer(winner);
+
+            if (winner == localPlayer.transform)
+                winPanel.SetActive(true);
         }
     }
 
