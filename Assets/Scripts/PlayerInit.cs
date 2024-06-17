@@ -70,7 +70,7 @@ public class PlayerInit : NetworkBehaviour
 
         // Set position and rotation and camera to the selected body.
         Transform body = transform.GetChild((int)playerInfo.variant);
-        Transform spawnPoint = GameLogic.instance.GetSpawnPoint();
+        Transform spawnPoint = GameLogic.instance.GetSpawnPoint((int)NetworkManager.LocalClientId);
         body.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
         GameLogic.instance.players.Add(body.GetComponent<Damageable>());
 

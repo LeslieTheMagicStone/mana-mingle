@@ -196,9 +196,10 @@ public class GameLogic : NetworkBehaviour
         deck.Add(spellPreview);
     }
 
-    public Transform GetSpawnPoint()
+    public Transform GetSpawnPoint(int i)
     {
-        return GameObject.FindWithTag("SpawnPoint").transform;
+        var spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        return spawnPoints[i].transform;
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -206,6 +207,7 @@ public class GameLogic : NetworkBehaviour
     {
         serverrpccalledtime++;
         playerCount--;
+        playerCount = players.Count(x => x != null && !x.isDead);
         if (playerCount == 1)
         {
             var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
