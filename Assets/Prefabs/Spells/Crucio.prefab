@@ -101,7 +101,7 @@ MonoBehaviour:
   _spellName: Crucio
   _displayName: Crucio
   _mana: 15
-  _audioClip: {fileID: 8300000, guid: f2bdba25efc560643b31e379eba16a02, type: 3}
+  _audioClip: {fileID: 8300000, guid: ccb38885a22fee2479df1034296ff5b9, type: 3}
   _spellType: 0
   projectilePrefab: {fileID: 7105387118241113780, guid: e92cf0173ac71a64aba445cb32cda392,
     type: 3}

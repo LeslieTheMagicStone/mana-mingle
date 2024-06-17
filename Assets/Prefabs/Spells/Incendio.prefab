@@ -102,7 +102,7 @@ MonoBehaviour:
   _spellName: Incendio
   _displayName: Incendio
   _mana: 10
-  _audioClip: {fileID: 8300000, guid: 63dbe86c447c9e845998f6c9a5cc3453, type: 3}
+  _audioClip: {fileID: 8300000, guid: b5d8645d3835c7143862cf6769bf7d5e, type: 3}
   _spellType: 1
   projectilePrefab: {fileID: 5465789628610843422, guid: f353a25450f98144fbe9e1ea30b8ed29,
     type: 3}
