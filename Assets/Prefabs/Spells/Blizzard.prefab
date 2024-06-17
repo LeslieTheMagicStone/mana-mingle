@@ -107,7 +107,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 8148313890095478982, guid: 163acc109b0e1604a912c18213c380fc,
     type: 3}
   spawnPoint: {fileID: 6765933803018504566}
-  projectileSpeed: 5
+  projectileSpeed: 15
 --- !u!114 &3453460966361458652
 MonoBehaviour:
   m_ObjectHideFlags: 0

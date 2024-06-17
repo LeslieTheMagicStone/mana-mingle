@@ -248,20 +248,20 @@ public class GameLogic : NetworkBehaviour
         OnDeathServerRpc();
     }
 
-    private void OnGUI()
-    {
-        var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
-        GUILayout.Label("AlivePlayers: " + alivePlayers.Count.ToString());
-        GUILayout.Label("");
-        GUILayout.Label("");
-        GUILayout.Label("");
-        GUILayout.Label("");
-        GUILayout.Label("ServerRPC Called Time: " + serverrpccalledtime.ToString());
-        GUILayout.Label("ClientRPC Called Time: " + clientrpccalledtime.ToString());
-        GUILayout.Label("Trophy Moved: " + trophyMoved.ToString());
-        GUILayout.Label("Is Winner: " + isWinner.ToString());
-        GUILayout.Label("Local Player Dead: " + localPlayerDead.ToString());
-    }
+    // private void OnGUI()
+    // {
+    //     var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+    //     GUILayout.Label("AlivePlayers: " + alivePlayers.Count.ToString());
+    //     GUILayout.Label("");
+    //     GUILayout.Label("");
+    //     GUILayout.Label("");
+    //     GUILayout.Label("");
+    //     GUILayout.Label("ServerRPC Called Time: " + serverrpccalledtime.ToString());
+    //     GUILayout.Label("ClientRPC Called Time: " + clientrpccalledtime.ToString());
+    //     GUILayout.Label("Trophy Moved: " + trophyMoved.ToString());
+    //     GUILayout.Label("Is Winner: " + isWinner.ToString());
+    //     GUILayout.Label("Local Player Dead: " + localPlayerDead.ToString());
+    // }
 
     private bool CheckGameOver(out Transform winner)
     {
