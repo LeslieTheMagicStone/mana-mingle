@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class DustLogic : MonoBehaviour
+public class DustLogic : NetworkBehaviour
 {
     // Start is called before the first frame update
     public int R;
     public GameObject Dust;
-    float startTime;
+    NetworkVariable<float> startTime = new(writePerm: NetworkVariableWritePermission.Server);
     public static DustLogic instance { get; private set; }
     public float radius;
 
@@ -21,17 +22,24 @@ public class DustLogic : MonoBehaviour
         instance = this;
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            startTime.Value = Time.time;
+        }
+    }
+
     private void Start()
     {
-        startTime = Time.time;
-
         while (R > 60)
         {
             for (float i = 0; i <= 360; i += 2000 / R)
             {
                 Vector3 pos = new Vector3(R * Mathf.Cos(i), -30, R * Mathf.Sin(i));
                 pos += transform.position;
-                Instantiate(Dust, pos, Quaternion.identity);
+                var rot = Quaternion.LookRotation(transform.position - pos);
+                Instantiate(Dust, pos, rot);
             }
             R -= 20;
         }
@@ -39,7 +47,7 @@ public class DustLogic : MonoBehaviour
 
     private void Update()
     {
-        radius = GetRadius(Time.time - startTime);
+        radius = GetRadius(Time.time - startTime.Value);
         transform.localScale = 2 * Vector3.one * radius;
     }
 }

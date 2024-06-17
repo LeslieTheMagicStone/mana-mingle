@@ -108,4 +108,12 @@
     <key>Language</key>
     <key>Language: English</key>
   </Entry>
+  <Entry>
+    <Key>Victory</Key>
+    <Key>Victory</Key>
+  </Entry>
+  <Entry>
+    <Key>Congratulations</Key>
+    <Key>Congratulations! The trophy is YOURS!</Key>
+  </Entry>
 </Localization>
