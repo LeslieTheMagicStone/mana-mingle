@@ -24,15 +24,12 @@ public class TrophyController : MonoBehaviour
         FloatAnimation();
     }
 
-    public void MoveToPlayer(Transform playerTransform)
+    public void MoveToPlayer(Vector3 pos, Quaternion rot)
     {
-        // 停止悬浮动画
-        DOTween.Kill(transform);
-
         // 计算目标位置
-        Vector3 targetPosition = playerTransform.position + playerTransform.forward * 2f + Vector3.up * 1.5f;
+        Vector3 targetPosition = pos + rot * Vector3.forward * 2 + Vector3.up * 2;
 
-        tweener.Kill();
+        tweener?.Kill();
         // 移动到玩家面前
         transform.DOMove(targetPosition, moveDuration).SetEase(Ease.InOutSine).OnComplete(FloatAnimation);
     }

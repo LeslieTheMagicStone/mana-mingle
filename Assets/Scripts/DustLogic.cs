@@ -14,7 +14,7 @@ public class DustLogic : NetworkBehaviour
 
     private float GetRadius(float t)
     {
-        return 30 + 300 * Mathf.Pow(2f, -t / 150f);
+        return 30 + 300 * Mathf.Pow(2f, -(t - 120) / 150f);
     }
 
     private void Awake()

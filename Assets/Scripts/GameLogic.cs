@@ -58,6 +58,13 @@ public class GameLogic : NetworkBehaviour
     [SerializeField] private GameObject winPanel;
     [SerializeField] private Button winQuit;
 
+    private int serverrpccalledtime = 0;
+    private int clientrpccalledtime = 0;
+    private bool trophyMoved = false;
+    private bool isWinner = false;
+    private bool localPlayerDead = false;
+    private int playerCount = 3;
+
     public override void OnNetworkSpawn()
     {
         instance = this;
@@ -195,45 +202,65 @@ public class GameLogic : NetworkBehaviour
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void OnPlayerDeathServerRpc()
+    private void OnDeathServerRpc()
     {
-        print("Game over server rpc");
-        GameOverClientRpc();
-    }
-
-    [ClientRpc]
-    private void GameOverClientRpc()
-    {
-        if (IsHost) return;
-        print("Game over client rpc");
-        GameOverLogic();
-    }
-
-    private void GameOverLogic()
-    {
-        if (CheckGameOver(out Transform winner))
+        serverrpccalledtime++;
+        playerCount--;
+        if (playerCount == 1)
         {
-            // 调用奖杯移动到玩家面前
-            trophyController.MoveToPlayer(winner);
-
-            if (winner == localPlayer.transform)
-            {
-                winPanel.SetActive(true);
-                CursorManager.instance.gameObject.SetActive(false);
-            }
+            var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+            ulong winnerId = alivePlayers[0].OwnerClientId;
+            Vector3 pos = alivePlayers[0].transform.position;
+            Quaternion rot = alivePlayers[0].transform.rotation;
+            OnVictoryClientRpc(winnerId, pos, rot);
         }
     }
 
+    [ClientRpc]
+    private void OnVictoryClientRpc(ulong winnerId, Vector3 pos, Quaternion rot)
+    {
+        print("Game over client rpc");
+        clientrpccalledtime++;
+
+        // 调用奖杯移动到玩家面前
+        trophyController.MoveToPlayer(pos, rot);
+        trophyMoved = true;
+
+        if (winnerId == NetworkManager.LocalClientId)
+        {
+            isWinner = true;
+            winPanel.SetActive(true);
+            CursorManager.instance.gameObject.SetActive(false);
+        }
+    }
+
+
     public void OnPlayerDeath()
     {
+        localPlayerDead = true;
+
         SetCursorLock(false);
         overlayCanvas.gameObject.SetActive(false);
 
         deathPanel.SetActive(true);
         CursorManager.instance.gameObject.SetActive(false);
 
-        if (IsHost) { GameOverLogic(); GameOverClientRpc(); }
-        else OnPlayerDeathServerRpc();
+        OnDeathServerRpc();
+    }
+
+    private void OnGUI()
+    {
+        var alivePlayers = players.Where(x => x != null && !x.isDead).ToList();
+        GUILayout.Label("AlivePlayers: " + alivePlayers.Count.ToString());
+        GUILayout.Label("");
+        GUILayout.Label("");
+        GUILayout.Label("");
+        GUILayout.Label("");
+        GUILayout.Label("ServerRPC Called Time: " + serverrpccalledtime.ToString());
+        GUILayout.Label("ClientRPC Called Time: " + clientrpccalledtime.ToString());
+        GUILayout.Label("Trophy Moved: " + trophyMoved.ToString());
+        GUILayout.Label("Is Winner: " + isWinner.ToString());
+        GUILayout.Label("Local Player Dead: " + localPlayerDead.ToString());
     }
 
     private bool CheckGameOver(out Transform winner)
@@ -255,7 +282,7 @@ public class GameLogic : NetworkBehaviour
 
     private void OnWatchClick()
     {
-        DOTween.Kill(Camera.main.transform);
+        // DOTween.Kill(Camera.main.transform);
         deathPanel.SetActive(false);
         var alivePlayers = players.Where(x => !x.isDead).ToList();
         if (alivePlayers.Count == 0) { Debug.LogWarning("when watch, No alive player"); return; }
