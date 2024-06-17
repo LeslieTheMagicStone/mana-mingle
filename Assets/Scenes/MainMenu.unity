@@ -303,7 +303,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1151453999}
+    m_TransformParent: {fileID: 715002948}
     m_Modifications:
     - target: {fileID: 554482693132013989, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
@@ -314,6 +314,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: 'Language: English'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1427928609297386504, guid: 38cebad921ef7b84baba994aa1eebe1a,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 19.850662
       objectReference: {fileID: 0}
     - target: {fileID: 1427928609297386504, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
@@ -358,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
@@ -368,32 +373,32 @@ PrefabInstance:
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 160
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 30
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.11
+      value: 1.1100001
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.11
+      value: 1.1100001
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.11
+      value: 1.1100001
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
@@ -433,12 +438,12 @@ PrefabInstance:
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 193
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -196
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2410042335601450535, guid: 38cebad921ef7b84baba994aa1eebe1a,
         type: 3}
@@ -967,7 +972,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -9.002914, z: 0, w: 0}
+  m_margin: {x: 0, y: -9.002914, z: 0, w: 105.937546}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1017,6 +1022,7 @@ RectTransform:
   - {fileID: 511876821}
   - {fileID: 1502574003}
   - {fileID: 932881940}
+  - {fileID: 108976541}
   - {fileID: 776602838}
   m_Father: {fileID: 1151453999}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1572,7 +1578,6 @@ RectTransform:
   m_Children:
   - {fileID: 1754969743}
   - {fileID: 701244745}
-  - {fileID: 108976541}
   - {fileID: 715002948}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1956,7 +1961,7 @@ PrefabInstance:
     - target: {fileID: 4957605393579145644, guid: 4f46098734d87e24490aef9267915ad2,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4957605393579145646, guid: 4f46098734d87e24490aef9267915ad2,
         type: 3}
