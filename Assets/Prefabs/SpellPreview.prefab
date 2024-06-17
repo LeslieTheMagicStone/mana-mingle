@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c310ecf90a7b8e84b9d7e424355ebada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardStatus: 0
 --- !u!65 &6622371486389646978
 BoxCollider:
   m_ObjectHideFlags: 0

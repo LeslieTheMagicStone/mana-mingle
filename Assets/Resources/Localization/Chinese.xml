@@ -109,4 +109,12 @@
     <Key>Language</Key>
     <Key>语言：中文</Key>
   </Entry>
+  <Entry>
+    <Key>Victory</Key>
+    <Key>胜利OvO</Key>
+  </Entry>
+  <Entry>
+    <Key>Congratulations</Key>
+    <Key>恭喜！奖杯是你的了！</Key>
+  </Entry>
 </Localization>

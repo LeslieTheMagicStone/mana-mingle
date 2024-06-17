@@ -15,7 +15,7 @@ public class PlayerInit : NetworkBehaviour
         foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
         {
             Transform tr = transform.GetChild((int)variant);
-            tr.transform.position = farAway;
+            // tr.transform.position = farAway;
             // Remove control from non-owners
             if (!IsLocalPlayer)
             {
@@ -53,17 +53,6 @@ public class PlayerInit : NetworkBehaviour
             Transform cameraSpawn = body.transform.Find("CameraSpawn");
             Camera.main.transform.SetParent(cameraSpawn, false);
             Camera.main.transform.localPosition = Vector3.zero;
-        }
-    }
-
-    private void Update()
-    {
-        if (hasGameStart) return;
-
-        foreach (var variant in Enum.GetValues(typeof(PlayerVariant)))
-        {
-            Transform tr = transform.GetChild((int)variant);
-            tr.position = farAway;
         }
     }
 

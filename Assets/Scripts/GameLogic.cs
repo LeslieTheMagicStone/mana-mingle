@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using DG.Tweening;
+using SunTemple;
 
 public class GameLogic : NetworkBehaviour
 {
@@ -122,17 +123,20 @@ public class GameLogic : NetworkBehaviour
             SetBackpackActive(false);
         }
 
-        if (Input.GetButtonDown("Roll"))
+        if (UiDepth == 0)
         {
-            Roll();
-        }
+            if (Input.GetButtonDown("Roll"))
+            {
+                Roll();
+            }
 
-        for (int i = 0; i < maxSpellsInHand; i++)
-        {
-            if (!Input.GetButtonDown("Fire" + (i + 1).ToString())) continue;
-            if (spellsInHand.Count <= i) continue;
-            var variant = spellsInHand[i].spell.spellVariant;
-            localPlayer.GetComponent<PlayerLogic>().Cast(variant);
+            for (int i = 0; i < maxSpellsInHand; i++)
+            {
+                if (!Input.GetButtonDown("Fire" + (i + 1).ToString())) continue;
+                if (spellsInHand.Count <= i) continue;
+                var variant = spellsInHand[i].spell.spellVariant;
+                localPlayer.GetComponent<PlayerLogic>().Cast(variant);
+            }
         }
 
         if (watchPlayerIndex == -1) return;
@@ -193,11 +197,19 @@ public class GameLogic : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void OnPlayerDeathServerRpc()
     {
+        print("Game over server rpc");
         GameOverClientRpc();
     }
 
     [ClientRpc]
     private void GameOverClientRpc()
+    {
+        if (IsHost) return;
+        print("Game over client rpc");
+        GameOverLogic();
+    }
+
+    private void GameOverLogic()
     {
         if (CheckGameOver(out Transform winner))
         {
@@ -205,7 +217,10 @@ public class GameLogic : NetworkBehaviour
             trophyController.MoveToPlayer(winner);
 
             if (winner == localPlayer.transform)
+            {
                 winPanel.SetActive(true);
+                CursorManager.instance.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -214,12 +229,11 @@ public class GameLogic : NetworkBehaviour
         SetCursorLock(false);
         overlayCanvas.gameObject.SetActive(false);
 
-        if (!CheckGameOver(out Transform winner))
-            deathPanel.SetActive(true);
-        else
-            OnWatchClick();
+        deathPanel.SetActive(true);
+        CursorManager.instance.gameObject.SetActive(false);
 
-        OnPlayerDeathServerRpc();
+        if (IsHost) { GameOverLogic(); GameOverClientRpc(); }
+        else OnPlayerDeathServerRpc();
     }
 
     private bool CheckGameOver(out Transform winner)
@@ -241,6 +255,7 @@ public class GameLogic : NetworkBehaviour
 
     private void OnWatchClick()
     {
+        DOTween.Kill(Camera.main.transform);
         deathPanel.SetActive(false);
         var alivePlayers = players.Where(x => !x.isDead).ToList();
         if (alivePlayers.Count == 0) { Debug.LogWarning("when watch, No alive player"); return; }
