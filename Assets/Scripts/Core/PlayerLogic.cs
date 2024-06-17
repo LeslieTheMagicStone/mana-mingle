@@ -22,11 +22,9 @@ public class PlayerLogic : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsOwner) { enabled = false; return; }
-
         audioSource = GetComponent<AudioSource>();
         damageable = GetComponent<Damageable>();
-        damageable.onDeath.AddListener(OnDeath);
+        if (IsOwner) damageable.onDeath.AddListener(OnDeath);
         manaLogic = GetComponent<ManaLogic>();
     }
 
@@ -53,7 +51,7 @@ public class PlayerLogic : NetworkBehaviour
         GameLogic.instance.OnPlayerDeath();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void CastServerRpc(ulong shooter, SpellVariant spellVariant)
     {
         print("ServerRPC reached");
@@ -66,7 +64,7 @@ public class PlayerLogic : NetworkBehaviour
         print("ClientRPC reached");
         var spell = GameLogic.instance.spellLibrary[(int)spellVariant];
 
-        if (!manaLogic.TryCostMana(spell.mana))
+        if (IsOwner && !manaLogic.TryCostMana(spell.mana))
         {
             audioSource.PlayOneShot(manaNotEnoughClip);
             return;
