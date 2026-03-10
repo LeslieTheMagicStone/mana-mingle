@@ -1,30 +1,14 @@
-# HW4-Final-Project
+# Mana Mingle
 
-Game Name: Miniwitch
+Unity multiplayer spell battle prototype.
 
-Keywords: 2p, pvp, magic, voxel, telecombat
+## Features
 
-Basic Spells:
+- Extensible spell system
+- Projectile-based combat
+- Mana resource management
+- Basic multiplayer prototype
 
-- Alohomora - 0dmg; 0mana;(Open the door)
-- Protego - 3def; 10mana;(Defense)
-- Block - 30mana;(immune to all negative effects and damage)
+## Demo
 
-Holy Spells:
-
-- Incendio - 5dmg; 10mana;(Attack)
-- Aguamenti - 5dmg; 10mana;(Attack)
-- Thunder Ward - 5dmg; 10mana;(Attack)
-- Expelliarmus - 0dmg; 15mana; 5s dizzy; 10%(Knock out)
-
-Chemical reactions:
-
-- Incendio + Thunder Ward = Explosion - 15dmg
-- Aguamenti + Thunder Ward = Lightning - 1s dizzy
-
-Dark Spells:
-
-- AvadaKedavra - 100dmg; 30mana;(Kill)
-- Crucio - 15dmg; 30mana; 1s dizzy(Attack)
-- Sectumsempra - 15dmg; 15mana(Attack)
-- Imperio - 0dmg; 30mana; 5s dizzy; 10%(Knock out)
+https://www.bilibili.com/video/BV16t8ceBEbo
