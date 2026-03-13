@@ -1,3 +1,0 @@
-public class WaterWall : ProjectileSpell
-{
-}
