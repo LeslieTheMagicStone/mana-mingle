@@ -1,9 +1,9 @@
 # Mana Mingle
 
-Mana Mingle is a **multiplayer spell-combat prototype** developed in Unity.  
+Mana Mingle is a multiplayer spell-combat prototype developed in Unity.  
 Players collect spells presented as cards and fight each other using different magical abilities driven by projectile-based combat.
 
-The project focuses on implementing **modular gameplay systems**, including spell casting, combat interactions, resource management, and a basic multiplayer prototype.
+The project focuses on implementing modular gameplay systems, including spell casting, combat interactions, resource management, and a basic multiplayer prototype.
 
 Demo: [Bilibili Gameplay Video](https://www.bilibili.com/video/BV16t8ceBEbo)
 
@@ -20,6 +20,14 @@ Core gameplay loop:
 3. Cast spells using mana  
 4. Fight other players using projectile-driven abilities  
 5. Survive environmental hazards such as the expanding dust zone  
+
+The following example demonstrates spell pickup, projectile combat, and damage interaction.
+
+![Combat Demo](docs/combat.gif)
+
+The following example demonstrates the dust zone damage.
+
+![Dust Demo](docs/dust.gif)
 
 ---
 
@@ -206,6 +214,6 @@ Debug utilities and temporary development scripts
 
 # Development Notes
 
-This project was developed as a gameplay prototype focusing on **gameplay system architecture and combat mechanics** rather than final art polish.
+This project was developed as a gameplay prototype focusing on gameplay system architecture and combat mechanics rather than final art polish.
 
 Some art assets and visual effects are imported third-party resources used for rapid prototyping.
