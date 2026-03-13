@@ -25,6 +25,7 @@ public class Damager : MonoBehaviour
             if (damageable.side != side || (damageable.side == Side.Player && damageable.ownerId != ownerId))
             {
                 damageable.TakeDamage(damage);
+                Destroy(transform.root.gameObject);
             }
         }
     }
